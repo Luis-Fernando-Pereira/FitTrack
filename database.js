@@ -1,5 +1,4 @@
-const mysql = require('./mysql2/promise');
-import Cliente from "./model/ClienteModel.js"
+const mysql = require('mysql2/promise');
 
 async function conectarBD()
 {
