@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title><%= title %></title>
+    <title><%= header %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
     <script src="https://cdn.tailwindcss.com">
@@ -17,14 +17,17 @@
     <style>
       body {
         font-family: 'Roboto', sans-serif;
-        background-image: url("images/assets/background-login.png");
+        background-color: #000B6D;
       }
     </style>
   </head>
 
   <body class="h-screen flex justify-center items-center">
-    <div class="relative z-10 w-full max-w-md mx-auto p-8 bg-white rounded-2xl justify-items-center">
-      <img src="images/assets/Logo.png" alt="">
+    <div class="relative z-10 w-full max-w-md mx-auto p-8 bg-white rounded-2xl">
+      <div class="flex flex-row justify-center p-3">
+        <h1 class="text-4xl text-orange-600">Admin</h1>
+        <h1 class="text-4xl text-blue-800">istrador</h1>
+      </div>
       
       <form action="/login" class="space-y-6 w-full justify-items-center" method="POST">
 

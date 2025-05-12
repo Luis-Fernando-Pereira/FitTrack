@@ -10,7 +10,7 @@ router.post('/novoAdmin', novoAdmin);
 
 //Funções de endpoint
 function login(req, res, next){
-    res.render('admin/index', { title: "FitTrack - Administrador" });
+    res.render('admin/index', {header: "FitTrack - Administrador", title: "Administrador" });
 }
 
 async function listarTodosAdministradores(req, res, next) {
