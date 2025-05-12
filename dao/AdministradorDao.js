@@ -29,6 +29,8 @@ async function inserir(admin){
     return insertId;
 }
 
+
+
 /**
  * Função que busca todos os administradores registrados no banco de dados
  * @returns array

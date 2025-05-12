@@ -3,16 +3,22 @@ const router = express.Router();
 const { Resposta } = require('../model/Resposta');
 
 
-router.get('/listarTodos', async (req, res, next) => 
-{
-    const adminService = new AdministradorService();
-    const administradores = adminService.listarTodos();
-    
-    res.render('admin/administradores', { administradores });
-});
-
+//Rotas
+router.get('/', login);
+router.get('/listarTodos', listarTodosAdministradores);
 router.post('/novoAdmin', novoAdmin);
 
+//Funções de endpoint
+function login(req, res, next){
+    res.render('admin/index');
+}
+
+async function listarTodosAdministradores(req, res, next) {
+    const adminService = new AdministradorService();
+    const administradores = await adminService.listarTodos();
+    
+    res.render('admin/administradores', { administradores });    
+}
 
 async function novoAdmin(req, res, next) {
     var resposta = criaResposta();
@@ -32,6 +38,8 @@ async function novoAdmin(req, res, next) {
 
     return res.json(resposta);
 }
+
+//Funções auxiliares
 
 function valdiarDados(email, senha, foto){
     AdministradorService.validaEmail(email);
