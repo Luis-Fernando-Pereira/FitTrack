@@ -1,3 +1,5 @@
+import Cliente from "../model/Cliente";
+
 var express = require('express');
 var router = express.Router();
 
@@ -11,10 +13,9 @@ router.get('/treinos', async function(req, res, next){
 })
 
 router.post('/login', async function(req, res, next){
-  const email = req.body.email ;
-  const senha = req.body.senha;
+  var cliente = new Cliente({email: req.body.email, senha: req.body.senha})
 
-  const usuario = await global.banco.buscarCliente({email,senha});
+  const usuario = await global.banco.buscarCliente(cliente);
 
   global.usuarioCodigo = usuario.id;
   global.usuarioEmail = usuario.email;
