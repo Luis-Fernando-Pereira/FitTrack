@@ -1,4 +1,4 @@
-import Cliente from "../model/Cliente";
+const { ClienteModel } = require("../model/ClienteModel");
 
 var express = require('express');
 var router = express.Router();
@@ -13,7 +13,7 @@ router.get('/treinos', async function(req, res, next){
 })
 
 router.post('/login', async function(req, res, next){
-  var cliente = new Cliente({email: req.body.email, senha: req.body.senha})
+  var cliente = new ClienteModel({email: req.body.email, senha: req.body.senha})
 
   const usuario = await global.banco.buscarCliente(cliente);
 
