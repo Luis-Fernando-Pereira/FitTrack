@@ -29,7 +29,7 @@
         <h1 class="text-4xl text-blue-800">istrador</h1>
       </div>
       
-      <form action="/login" class="space-y-6 w-full justify-items-center" method="POST">
+      <form action="/admin/login" class="space-y-6 w-full justify-items-center" method="POST">
 
         <div class="w-full">
           <label class="block text-sm font-medium text-orange-600" for="email">
@@ -49,20 +49,8 @@
             id="senha" name="senha" required="" type="password" />
         </div>
 
-
-        <div class="flex items-center justify-between">
-          <div class="flex items-center text-center">            
-            <label class="ml-2 block text-sm text-orange-600" for="lembrar">
-              Não possui conta? 
-              <a class="text-sm text-blue-800 hover:underline" href="#">
-                Cadastre-se aqui.
-             </a>   
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <button class="w-48 py-3 bg-blue-800 hover:bg-blue-900 rounded-2xl text-white font-bold" type="submit">
+        <div class="w-full  ">
+          <button class="w-full h-full py-3 bg-blue-800 hover:bg-blue-900 rounded-xl text-white font-bold" type="submit">
             Entrar
           </button>
         </div>

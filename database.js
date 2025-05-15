@@ -19,6 +19,4 @@ async function conectarBD()
     return conexao;
 }
 
-conectarBD();
-
 module.exports = { conectarBD };

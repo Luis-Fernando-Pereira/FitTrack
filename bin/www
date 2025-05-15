@@ -4,7 +4,6 @@
  * Module dependencies.
  */
 
-global.banco = require('../database');
 var app = require('../app');
 var debug = require('debug')('fittrack:server');
 var http = require('http');

@@ -3,7 +3,7 @@ const { ClienteModel } = require("../model/ClienteModel");
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
+/* GET home page. *//*
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'FitTrack' });
 });
@@ -21,5 +21,5 @@ router.post('/login', async function(req, res, next){
   global.usuarioEmail = usuario.email;
   res.redirect('/treinos');  
 })
-
+*/
 module.exports = router;
