@@ -1,8 +1,8 @@
 const express = require('express');
-const router = express.Router()
+const router = express.Router();
+const { listarCategorias, criarCategoria } = require('../controller/CategoriaController');
 
-async function todasCategorias(){
-    const dados = await global.banco.buscarCategorias();
-}
+router.get('/categorias', listarCategorias);
+router.post('/categorias', criarCategoria);
 
 module.exports = router;
