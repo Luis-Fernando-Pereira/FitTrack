@@ -23,6 +23,7 @@ class AdministradorDao {
             admin.foto,
             admin.senha
         ]);
+        await conexao.end();
 
         if(!insertId){
             return false;
@@ -31,20 +32,18 @@ class AdministradorDao {
         return new AdministradorModel(insertId, nome, email, senha, foto);
     }
 
+    /**
+     * Função que consulta no banco de dados um administrador por email
+     * @param {string} email 
+     * @returns {[AdministradorModel]} lista de AdminstradorModel
+     */
     async consultarPorEmail(email){
         const conexao = await conectarBD();
         const sql = "SELECT * FROM administrador WHERE email = ?";
-        const [ resultado ] = conexao.query(sql, [email]);
+        const [ resultado ] = await conexao.query(sql, [email]);
+        await conexao.end();
         
-        return resultado;
-    }
-
-    async consultaAdminPorEmailSenha(email, senha){
-        const conexao = await conectarBD();
-        const sql = 'SELECT * FROM administrador WHERE email_admin = ? AND senha_admin = ?';
-        const [ adminEncontrado ] = conexao.query(sql,[email,senha]);
-
-        return  adminEncontrado && adminEncontrado.length > 0 ? adminEncontrado[0]:{};        
+        return resultado.length > 0 ? await AdministradorModel.fromDatabase(result) : {};
     }
 
     /**
@@ -52,17 +51,43 @@ class AdministradorDao {
      * @returns array
      */
     async listarTodos() {
-        try{
-            const conexao = await conectarBD();
-            const sql = 'select * from administrador;';
-            const [dadosEncontrados] = await conexao.query(sql);
-            
-            return dadosEncontrados;
-            
-        }catch(error){
-            console.log(error);
-            throw new Error(error);            
+        const conexao = await conectarBD();
+        const sql = 'select * from administrador;';
+        const [dadosEncontrados] = await conexao.query(sql);
+        await conexao.end();
+        
+        return dadosEncontrados.length > 0 ? AdministradorModel.fromDatabase(dadosEncontrados) : {};
+    }
+    
+    /**
+     * 
+     * @param {AdministradorModel} admin 
+     */
+    async atualizar(admin){
+        const conexao = await conectarBD();
+        const sql = ```
+            update administrador 
+                set nome_admin = ?,
+                email_admin = ?,
+                senha_admin = ?,
+                foto_admin = ? 
+            where cod_admin = ?;```;
+
+        const [resultado] = await conexao.execute(sql, [
+            admin.nome,
+            admin.email,
+            admin.senha,
+            admin.foto,
+            admin.codigo
+        ]);
+
+        await conexao.end();
+
+        if(resultado.afectedRows > 0){
+            return true;
         }
+
+        return false;
     }
 }
 

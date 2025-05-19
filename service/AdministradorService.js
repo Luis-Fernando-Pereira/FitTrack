@@ -17,9 +17,14 @@ class AdministradorService {
             return false;
         }
 
-        const dao = new AdministradorDao();        
+        const dao = new AdministradorDao();  
+        const admin = dao.consultarPorEmail(email);       
 
-        if(!dao.consultaAdminPorEmailSenha(email, senha)){
+        if(!admin){
+            return false;
+        }
+
+        if(senha !== admin.senha){
             return false;
         }
 
