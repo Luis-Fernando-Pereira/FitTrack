@@ -6,8 +6,12 @@ const { AdministradorService } = require("../service/AdministradorService");
  * @param {*} res 
  * @param {*} next 
  */
-function renderizaLogin(req, res, next){
-    res.render('admin/index', {header: "FitTrack - Administrador", title: "Administrador" });
+exports.login = function (req, res, next){
+    res.render('admin/index', {
+        sucesso: null,
+        mensagem: null,
+        login: false            
+    });
 }
 
 /**
@@ -16,44 +20,98 @@ function renderizaLogin(req, res, next){
  * @param {*} res 
  * @param {*} next 
  */
-function renderizarDashboard(req,res,next){
+exports.renderizarDashboard = function (req,res,next){
     res.render('admin/dashboard');
 }
 
-function renderizaAdministradores(req, res, next){
+exports.renderizarAdministradores = function (req, res, next){
     const service = new AdministradorService();
-    const administradores = service.listarTodos();
+    const administradores = service.consultarTodos();
+
     res.render('admin/administradores', { administradores });
 }
 
-function validaLogin(req, res, next){
+exports.autenticar = async function(req, res, next){
     const {email, senha} = req.body;
-    const service = new AdministradorService();
-    
-    if(!service.validaCredenciais(email, senha)){
-        return 
-    }
 
-    return res.redirect('/admin/dashboard');
+    try{
+        if(!emailSenhaPreenchidos(email, senha)){
+            res.render('admin/index', {
+                sucesso: false,
+                mensagem: "Email e senha devem estar preenchidos!",
+                login: true
+            });
+        }
+
+        const service = new AdministradorService(); 
+
+        if(!service.autenticar(email, senha)){
+            res.render('admin/index', {
+                sucesso: false,
+                mensagem: "Email ou senha inválidos",
+                login: true  
+            })
+        }
+        
+        res.redirect('admin/dashboard');
+    }catch(error){
+        res.render('admin/index', {
+            sucesso: false,
+            mensagem: "Houve algum erro ao validar login",
+            login: true
+        });
+    }    
 }
 
-async function novoAdmin(req, res, next) {
-    var resposta = criaResposta();
 
-    const {email, senha, foto, nome} = req.body;
-
+/**
+ * endpoint para criação de novo administrador
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+exports.novoAdmin =  async function (req, res, next) {
     try{        
-        valdiarDados(email, senha, foto);
+        const {email, senha, foto, nome} = req.body;
+        if(!email || !senha || !nome){
+            res.render('admin/novo-admin', {
+                sucesso: false,
+                mensagem: "Campos obrigatórios devem estar preenchidos!",
+                cadastro: true
+            });
+        }
 
-        const novoId = salvarAdmin(email, senha, foto, nome);
+        const service = new AdministradorService();
+        
+        if(service.existeAdministrador(email)){
+            res.render('admin/novo-admin', {
+                sucesso: false,
+                mensagem: "Este email já está cadastrado!",
+                cadastro: true
+            });
+        }
 
-        (await resposta).mensagem = `Novo Administrador de código ${novoId} inserido com sucesso!`;
-        (await resposta).sucesso = true;
+        const novoAdmin = service.criarNovoAdministrador(email, senha, foto, nome);
+
+        if(!novoAdmin){
+            res.render('admin/novo-admin', {
+                
+            })
+        }
+
     }catch(erro){
-        (await resposta).mensagem(erro);
+        res.render('/admin/novo-administrador', {
+            sucesso: false,
+            mensagem: "Erro ao inserir novo administrador"
+        });
     }
-
-    return res.json(resposta);
 }
 
-module.exports = { renderizaLogin, renderizarDashboard, renderizaAdministradores, validaLogin };
+function emailSenhaPreenchidos(email, senha){
+    if(!email || !senha){
+        return false;
+    }
+
+    return true;
+}

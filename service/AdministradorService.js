@@ -1,3 +1,4 @@
+const { AdministradorDao } = require('../dao/AdministradorDao');
 const { FuncoesUtil } = require('../util/FuncoesUtil');
 
 class AdministradorService {
@@ -7,9 +8,9 @@ class AdministradorService {
      * @param {string} senha 
      * @returns 
      */
-    async validaCredenciais(email, senha){
+    async autenticar(email, senha){
         if(!email || !senha){
-            throw new Error("Parâmetros devem estar preenchidos");
+            return false;
         }
         
         if(FuncoesUtil.emailValido(email)){
@@ -18,11 +19,40 @@ class AdministradorService {
 
         const dao = new AdministradorDao();        
 
-        if(!dao.login(email, senha)){
+        if(!dao.consultaAdminPorEmailSenha(email, senha)){
             return false;
         }
 
         return true; 
+    }
+
+    async criarNovoAdministrador(email, senha, nome, foto){        
+        this.validar(email,senha,foto);
+        const dao = new AdministradorDao();
+
+        if(this.existeAdministrador(email)){
+            return false;
+        }
+
+        const resultado = await dao.inserir(new AdministradorModel({
+            nome: nome,
+            email: email,
+            senha: senha,
+            foto: foto
+        }));
+
+        return resultado;
+    }
+
+    async existeAdministrador(email){
+        const dao = new AdministradorDao();
+        const admin = dao.consultarPorEmail(email);
+
+        if(admin.length > 0){
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -30,7 +60,8 @@ class AdministradorService {
      * @returns {array|false} retorna uma lista de administradores. Se não 
      * houver administradores cadastrados no bano de dados, retorna falso.
      */
-    async listarTodos() {        
+    async consultarTodos() {
+        
         const dao = new AdministradorDao();
         const resultado = await dao.listarTodos();
 
@@ -39,6 +70,7 @@ class AdministradorService {
         }
 
         var administradores = [];
+
         resultado.forEach(element => {
             administradores.push( new AdministradorModel(
                 element.cod_admin,
@@ -53,15 +85,15 @@ class AdministradorService {
     }
 
     /**
-     * 
-     * @param {*} email 
-     * @param {*} senha 
-     * @param {*} foto 
+     * Valida dados de email, senha e foto
+     * @param {string} email email a ser inserido 
+     * @param {string} senha senha a ser inserida
+     * @param {string} foto caminho da imagem a ser inserida
      */
-    async valdiarDados(email, senha, foto){
-        AdministradorService.validaEmail(email);
-        AdministradorService.validaSenha(senha);
-        AdministradorService.validaFoto(foto);
+    async validar(email, senha, foto){
+        this.validaEmail(email);
+        this.validaSenha(senha);
+        this.validaFoto(foto);
     }
 
 
@@ -80,7 +112,7 @@ class AdministradorService {
     async validaFoto(foto){
         if(!FuncoesUtil.existeArquivo(foto))
         {
-            throw Error('Foto não encontrada'); 
+            throw Error('Foto não encontrada');
         }
     }
 }

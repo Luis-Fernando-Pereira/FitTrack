@@ -7,7 +7,7 @@ class AdministradorDao {
      * @param {AdministradorModel} admin 
      */
     async inserir(admin){
-        const conexao = await global.banco;
+        const conexao = await conectarBD();
 
         const sql = ```
         insert into administrador(
@@ -28,22 +28,23 @@ class AdministradorDao {
             return false;
         }
 
-        return insertId;
+        return new AdministradorModel(insertId, nome, email, senha, foto);
     }
 
-    async login(email, senha){
-        try{
-            const conexao = await conectarBD();
-            const sql = 'SELECT * FROM administrador WHERE email_admin = ? AND senha_admin = ?';
-            const resultado = conexao.query(sql,[email,senha]);
-
-            return resultado[0] || null;
-            
-        }catch(error){
-            console.log(error);
-            return null;
-        }
+    async consultarPorEmail(email){
+        const conexao = await conectarBD();
+        const sql = "SELECT * FROM administrador WHERE email = ?";
+        const [ resultado ] = conexao.query(sql, [email]);
         
+        return resultado;
+    }
+
+    async consultaAdminPorEmailSenha(email, senha){
+        const conexao = await conectarBD();
+        const sql = 'SELECT * FROM administrador WHERE email_admin = ? AND senha_admin = ?';
+        const [ adminEncontrado ] = conexao.query(sql,[email,senha]);
+
+        return  adminEncontrado && adminEncontrado.length > 0 ? adminEncontrado[0]:{};        
     }
 
     /**
@@ -52,9 +53,9 @@ class AdministradorDao {
      */
     async listarTodos() {
         try{
-            const conexao = await global.banco.conectarDb();
+            const conexao = await conectarBD();
             const sql = 'select * from administrador;';
-            const { dadosEncontrados } = await conexao.query(sql);
+            const [dadosEncontrados] = await conexao.query(sql);
             
             return dadosEncontrados;
             
