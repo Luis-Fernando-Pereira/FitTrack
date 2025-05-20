@@ -22,13 +22,25 @@ class ClienteModel {
         this.foto = foto
     }
 
-    static doBancoDeDados(array) {
-        if(array.length == 0) throw new Error("Nenhum dado na array")
-        if(array.length > 1) return
+    static fromDatabase(dbResult) {
+        let clienteList = [];
 
-        array.forEach(data => {
-            
+        dbResult.forEach(result => {
+            clienteList.push(
+                new AdministradorModel(
+                    result.cod_cli,
+                    result.nome_cli,
+                    result.email_cli,
+                    result.senha_cli,
+                    result.peso_cli,
+                    result.idade_cli,
+                    result.sexo_cli,
+                    result.foto_cli
+                )
+            )
         });
+
+        return clienteList;
     }
 }
 

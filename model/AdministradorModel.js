@@ -16,7 +16,7 @@ class AdministradorModel {
     static async fromDatabase(dbResult){
         let adminModelList = [];
 
-        dbResult.array.forEach(result => {
+        dbResult.forEach(result => {
             adminModelList.push(
                 new AdministradorModel(
                     result.cod_admin,
