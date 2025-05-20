@@ -20,15 +20,7 @@ class ClienteDao {
             foto_cli
         ) values (?,?,?,?,?,?,?);```;
 
-        const { insertId } = await conexao.query(sql, [
-            cliente.nome,
-            cliente.email,
-            cliente.senha,
-            cliente.idade,
-            cliente.peso,
-            cliente.sexo,
-            cliente.foto
-        ]);
+        const { insertId } = await conexao.query(sql, cliente.toInsertArray());
 
         await conexao.end();
 
@@ -70,7 +62,7 @@ class ClienteDao {
     
     /**
      * 
-     * @param {ClienteModel} admin 
+     * @param {ClienteModel} cliente 
      */
     async atualizar(cliente){
         const conexao = await conectarBD();
@@ -85,16 +77,7 @@ class ClienteDao {
                 foto_cli = ? 
             where cod_cli = ?;```;
 
-        const [ resultado ] = await conexao.execute(sql, [
-            cliente.nome,
-            cliente.email,
-            cliente.senha,
-            cliente.idade,
-            cliente.peso,
-            cliente.sexo,
-            cliente.foto,
-            cliente.codigo
-        ]);
+        const [ resultado ] = await conexao.execute(sql, cliente.toUpdateArray());
 
         await conexao.end();
 

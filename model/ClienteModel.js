@@ -22,6 +22,41 @@ class ClienteModel {
         this.foto = foto
     }
 
+    /**
+     * Função que converte dadso de clienteModel para array de inserção 
+     * no banco de dados.
+     * @returns {[nome,email,senha,idade,peso,sexo,foto]} ClienteModel em formato de array
+     */
+    toInsertArray(){
+        return [
+            this.nome,
+            this.email,
+            this.senha,
+            this.idade,
+            this.peso,
+            this.sexo,
+            this.foto
+        ];
+    }
+
+    /**
+     * Função que converte os dados de cliente model para array
+     * de update do banco de dados
+     * @returns {[nome,email,senha,idade,peso,sexo,foto,codigo]}ClienteModel em formato de array
+     */
+    toUpdateArray(){
+        return [
+            this.nome,
+            this.email,
+            this.senha,
+            this.idade,
+            this.peso,
+            this.sexo,
+            this.foto,
+            this.codigo
+        ];
+    }
+
     static fromDatabase(dbResult) {
         let clienteList = [];
 
