@@ -57,10 +57,16 @@ class ClienteModel {
         ];
     }
 
-    static fromDatabase(dbResult) {
+    /**
+     * Função que converte uma lista de resultado do banco de dados para 
+     * uma lista de ClienteModel
+     * @param {*} dbResult lista de dados retornados do banco de dados 
+     * @returns {[ClienteModel]}lista de ClienteModel
+     */
+    static fromDatabase(dados) {
         let clienteList = [];
 
-        dbResult.forEach(result => {
+        dados.forEach(result => {
             clienteList.push(
                 new AdministradorModel(
                     result.cod_cli,
