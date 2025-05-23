@@ -15,7 +15,7 @@ const mock = [
   }
 ];
 
-jest.mock('../database/dao/AdministradorDao.js', () => {
+jest.mock('../dao/AdministradorDao.js', () => {
   return {
     AdministradorDao: jest.fn().mockImplementation(() => ({
       buscarTodos: jest.fn().mockReturnValue(mock),
