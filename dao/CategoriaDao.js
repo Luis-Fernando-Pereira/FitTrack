@@ -28,6 +28,12 @@ class CategoriaDao {
             titulo: dadosEncontrados[0].titulo_cat
         }) : null;
     }
+
+    async editarCategoria(novoTitulo, codigo) {
+        const conexao = await conectarBD();
+        const [resultado] = await conexao.query('update categoria set titulo_cat = ? where cod_cat = ?', [novoTitulo, codigo]);
+        return resultado.affectedRows > 0;
+    }
 }
 
 module.exports = { CategoriaDao };

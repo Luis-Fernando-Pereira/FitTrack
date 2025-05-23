@@ -2,9 +2,12 @@ const { ExercicioModel } = require('../model/ExercicioModel');
 const { ExercicioDao } = require('../dao/ExercicioDao');
 
 class ExercicioService {
+    constructor() {
+        this.exercicioDao = new ExercicioDao();
+    }
+
     async listarExercicios() {
-        const dao = new ExercicioDao();
-        return await dao.listarExercicios();
+        return await this.exercicioDao.listarExercicios();
     }
 
     async criarExercicio(dados, usuario) {
@@ -16,15 +19,14 @@ class ExercicioService {
             throw new Error('Título, descrição e tempo estimado são obrigatórios');
         }
 
-        const dao = new ExercicioDao();
-        const exercicioExistente = await dao.buscarPorTitulo(dados.titulo);
+        const exercicioExistente = await this.exercicioDao.buscarPorTitulo(dados.titulo);
 
         if (exercicioExistente) {
             throw new Error('Já existe um exercício com esse título.');
         }
 
         const exercicio = new ExercicioModel(dados);
-        const codigo = await dao.inserirExercicio(exercicio);
+        const codigo = await this.exercicioDao.inserirExercicio(exercicio);
         exercicio.codigo = codigo;
 
         return exercicio;
