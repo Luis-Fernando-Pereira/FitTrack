@@ -1,5 +1,5 @@
 const { CategoriaModel } = require('../model/CategoriaModel');
-const { CategoriaDao } = require('../database/dao/CategoriaDao');
+const { CategoriaDao } = require('../dao/CategoriaDao');
 
 class CategoriaService {
     async listarCategorias() {
@@ -28,6 +28,25 @@ class CategoriaService {
         categoria.codigo = codigo;
 
         return categoria;
+    }
+
+    async editarCategoria(novoTitulo, codigo, usuario) {
+        if (!usuario || usuario.tipo !== 'administrador') {
+            throw new Error('Apenas administradores podem editar categorias');
+        }
+
+        if (!novoTitulo || novoTitulo.trim() === '') {
+            throw new Error('Título da categoria não pode ser vazio');
+        }
+
+        const dao = new CategoriaDao();
+        const categorias = await dao.buscaTodasCategorias();
+
+        if (categorias.some(cat => cat.titulo.toLowerCase() === novoTitulo.trim().toLowerCase() && cat.codigo !== codigo)) {
+            throw new Error('Já existe uma categoria com esse nome.');
+        }
+
+        return await dao.editarCategoria(novoTitulo, codigo);
     }
 }
 

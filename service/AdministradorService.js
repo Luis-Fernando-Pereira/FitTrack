@@ -1,5 +1,7 @@
 const { AdministradorDao } = require('../dao/AdministradorDao');
 const { FuncoesUtil } = require('../util/FuncoesUtil');
+const { AdministradorDao } = require('../dao/AdministradorDao');
+const { AdministradorModel } = require('../model/AdministradorModel');
 
 class AdministradorService {
     /**
