@@ -7,9 +7,12 @@ class TreinoDao{
     }
 
     async listarTodos(){
-        const sql = ```
-            SELECT * FROM treino;
-        ```;
+        const sql ='SELECT * FROM treino;';
+        const [ resultado ] = await this.conexao.query(sql);
+
+        await this.conexao.end();
+
+        
     }
 
     /**

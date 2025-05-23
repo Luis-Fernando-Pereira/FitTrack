@@ -1,3 +1,4 @@
+const { conectarBD } = require("../database");
 const { ClienteModel } = require("../model/ClienteModel");
 
 class ClienteDao {
@@ -7,7 +8,7 @@ class ClienteDao {
      * @param {ClienteModel} cliente 
      */
     async inserir(cliente){
-        const conexao = await conectarBD();
+        const conexao = await conectarBD
 
         const sql = ```
         insert into cliente( 
