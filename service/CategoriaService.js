@@ -26,11 +26,7 @@ class CategoriaService {
         return categoria;
     }
 
-    async editarCategoria(novoTitulo, codigo, usuario) {
-        if (!usuario || usuario.tipo !== 'administrador') {
-            throw new Error('Apenas administradores podem editar categorias');
-        }
-
+    async editarCategoria(novoTitulo, codigo) {
         if (!novoTitulo || novoTitulo.trim() === '') {
             throw new Error('Título da categoria não pode ser vazio');
         }
