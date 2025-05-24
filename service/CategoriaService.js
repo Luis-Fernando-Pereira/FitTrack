@@ -7,11 +7,7 @@ class CategoriaService {
         return await dao.listarCategorias();
     }
 
-    async criarCategoria(titulo, usuario) {
-        if (!usuario || usuario.tipo !== 'administrador') {
-            throw new Error('Apenas administradores podem criar categorias');
-        }
-
+    async criarCategoria(titulo) {
         if (!titulo || titulo.trim() === '') {
             throw new Error('Título da categoria não pode ser vazio');
         }
