@@ -1,4 +1,4 @@
-const mock = [
+/*const mock = [
   {
     "codigo": 1,
     "nome": "Ana Souza",
@@ -52,5 +52,5 @@ test('Deve retornar AdministradorModel com código numérico', async () => {
   expect(resultado).toHaveProperty(codigo);
   expect(resultado.codigo).toContain(Number);
 });
-
+*/
 

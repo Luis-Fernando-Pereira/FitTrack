@@ -274,9 +274,9 @@ header {
   font-size: 1rem;
   padding: 0 0.5rem;
 }
-</style></head><body><main class="jesthtml-content"><header><h1 id="title">Relatório de Testes</h1></header><section id="metadata-container"><div id="timestamp">Started: 2025-05-23 21:19:49</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (2)</div><div class="summary-passed ">1 passed</div><div class="summary-failed ">1 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (6)</div><div class="summary-passed ">5 passed</div><div class="summary-failed ">1 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></section><details id="suite-1" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/categoria.test.js</div><div class="suite-time">0.13s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename"> </div><div class="test-title">Deve retornar categorias simuladas</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename"> </div><div class="test-title">CT-007: cadastro de categoria com titulo</div><div class="test-status">failed</div><div class="test-duration">0.001s</div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: dao.buscaTodasCategorias is not a function
+</style></head><body><main class="jesthtml-content"><header><h1 id="title">Relatório de Testes</h1></header><section id="metadata-container"><div id="timestamp">Started: 2025-05-23 23:57:16</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (4)</div><div class="summary-passed ">2 passed</div><div class="summary-failed ">2 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (22)</div><div class="summary-passed ">11 passed</div><div class="summary-failed ">11 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></section><details id="suite-1" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaService.test.js</div><div class="suite-time">0.15s</div></summary><div class="suite-tests"><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-007 &gt; criarCategoria</div><div class="test-title">Deve retornar instancia de CategoriaModel</div><div class="test-status">failed</div><div class="test-duration">0.001s</div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: dao.buscaTodasCategorias is not a function
     at CategoriaService.buscaTodasCategorias [as criarCategoria] (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/service/CategoriaService.js:16:38)
-    at Object.criarCategoria (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/categoria.test.js:58:37)
+    at Object.criarCategoria (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaService.test.js:32:45)
     at Promise.then.completed (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:298:28)
     at new Promise (&lt;anonymous&gt;)
     at callAsyncCircusFn (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:231:10)
@@ -284,8 +284,126 @@ header {
     at processTicksAndRejections (node:internal/process/task_queues:105:5)
     at _runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:252:3)
     at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
     at run (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:71:3)
     at runAndTransformResultsToJestFormat (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
     at jestAdapter (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
     at runTestInternal (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:444:34)</pre></div></div></div></details><details id="suite-2" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/ExercicioService.test.js</div><div class="suite-time">0.03s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">ExercicioService</div><div class="test-title">CT-009: Deve cadastrar exercício com todos os campos obrigatórios</div><div class="test-status">passed</div><div class="test-duration"> </div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">ExercicioService</div><div class="test-title">CT-009: Não deve cadastrar exercício sem campos obrigatórios</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">ExercicioService</div><div class="test-title">CT-009: Não deve cadastrar exercício duplicado</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">ExercicioService</div><div class="test-title">CT-009: Não deve cadastrar exercício se não for administrador</div><div class="test-status">passed</div><div class="test-duration"> </div></div></div></div></details></main></body></html>
+    at runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:444:34)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-007 &gt; criarCategoria</div><div class="test-title">Deve retornar CategoriaModel com novo id e titulo</div><div class="test-status">failed</div><div class="test-duration">0.001s</div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: dao.buscaTodasCategorias is not a function
+    at CategoriaService.buscaTodasCategorias [as criarCategoria] (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/service/CategoriaService.js:16:38)
+    at Object.criarCategoria (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaService.test.js:37:45)
+    at Promise.then.completed (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:444:34)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-007 &gt; criarCategoria</div><div class="test-title">Deve retornar erro: Já existe uma categoria com esse nome</div><div class="test-status">failed</div><div class="test-duration">0.009s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: expect(received).rejects.toThrow(expected)
+
+Expected substring: "Já existe uma categoria com esse nome."
+Received message:   "dao.buscaTodasCategorias is not a function"
+
+      14 |
+      15 |         const dao = new CategoriaDao();
+    &gt; 16 |         const categorias = await dao.buscaTodasCategorias();
+         |                                      ^
+      17 |
+      18 |         if (categorias.some(cat =&gt; cat.titulo.toLowerCase() === titulo.trim().toLowerCase())) {
+      19 |             throw new Error('Já existe uma categoria com esse nome.');
+
+      at CategoriaService.buscaTodasCategorias [as criarCategoria] (service/CategoriaService.js:16:38)
+      at Object.criarCategoria (teste/CategoriaService.test.js:45:34)
+    at Object.toThrow (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/expect/build/index.js:218:22)
+    at Object.toThrow (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaService.test.js:45:67)
+    at Promise.then.completed (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:444:34)</pre></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CT-007 &gt; criarCategoria</div><div class="test-title">Deve retornar erro: Título da categoria não pode ser vazio</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-019 &gt; listarCategorias</div><div class="test-title">Deve retornar Array com dados simulados</div><div class="test-status">failed</div><div class="test-duration"> </div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: function is not iterable (cannot read property Symbol(Symbol.iterator))
+    at CategoriaDao.listarCategorias (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/dao/CategoriaDao.js:7:33)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at CategoriaService.listarCategorias (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/service/CategoriaService.js:7:16)
+    at Object.&lt;anonymous&gt; (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaService.test.js:64:31)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-019 &gt; listarCategorias</div><div class="test-title">Deve retornar Array</div><div class="test-status">failed</div><div class="test-duration"> </div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: function is not iterable (cannot read property Symbol(Symbol.iterator))
+    at CategoriaDao.listarCategorias (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/dao/CategoriaDao.js:7:33)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at CategoriaService.listarCategorias (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/service/CategoriaService.js:7:16)
+    at Object.&lt;anonymous&gt; (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaService.test.js:73:31)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-019 &gt; listarCategorias</div><div class="test-title">Deve retornar instancia de CategoriaModel como primeiro item da array</div><div class="test-status">failed</div><div class="test-duration"> </div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: function is not iterable (cannot read property Symbol(Symbol.iterator))
+    at CategoriaDao.listarCategorias (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/dao/CategoriaDao.js:7:33)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at CategoriaService.listarCategorias (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/service/CategoriaService.js:7:16)
+    at Object.&lt;anonymous&gt; (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaService.test.js:78:31)</pre></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CT-019 &gt; listarCategorias</div><div class="test-title">Deve retornar array vazia</div><div class="test-status">passed</div><div class="test-duration"> </div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-005 &gt; editarCategoria</div><div class="test-title">Deve retornar true</div><div class="test-status">failed</div><div class="test-duration">0.001s</div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: dao.buscaTodasCategorias is not a function
+    at CategoriaService.buscaTodasCategorias [as editarCategoria] (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/service/CategoriaService.js:35:38)
+    at Object.editarCategoria (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaService.test.js:119:45)
+    at Promise.then.completed (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:444:34)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-005 &gt; editarCategoria</div><div class="test-title">Deve retornar Nome de categoria não foi alterado!</div><div class="test-status">failed</div><div class="test-duration">0.001s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: expect(received).rejects.toThrow(expected)
+
+Expected substring: "Nome de categoria não foi alterado"
+Received message:   "dao.buscaTodasCategorias is not a function"
+
+      33 |
+      34 |         const dao = new CategoriaDao();
+    &gt; 35 |         const categorias = await dao.buscaTodasCategorias();
+         |                                      ^
+      36 |
+      37 |         if (categorias.some(cat =&gt; cat.titulo.toLowerCase() === novoTitulo.trim().toLowerCase() &amp;&amp; cat.codigo !== codigo)) {
+      38 |             throw new Error('Já existe uma categoria com esse nome.');
+
+      at CategoriaService.buscaTodasCategorias [as editarCategoria] (service/CategoriaService.js:35:38)
+      at Object.editarCategoria (teste/CategoriaService.test.js:124:34)
+    at Object.toThrow (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/expect/build/index.js:218:22)
+    at Object.toThrow (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaService.test.js:124:71)
+    at Promise.then.completed (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
+    at _runTestsForDescribeBlock (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/node_modules/jest-runner/build/runTest.js:444:34)</pre></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CT-005 &gt; editarCategoria</div><div class="test-title">Deve retornar Título da categoria não pode ser vazio!</div><div class="test-status">passed</div><div class="test-duration"> </div></div></div></div></details><details id="suite-2" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaDao.test.js</div><div class="suite-time">0.031s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">CT-007 &gt; inserirCategoria</div><div class="test-title">Deve retornar novo id</div><div class="test-status">passed</div><div class="test-duration"> </div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-019 &gt; listarCategorias</div><div class="test-title">Deve retornar array de CategoriaModel</div><div class="test-status">failed</div><div class="test-duration"> </div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: dadosEncontrados.map is not a function
+    at CategoriaDao.map [as listarCategorias] (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/dao/CategoriaDao.js:9:33)
+    at Object.&lt;anonymous&gt; (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaDao.test.js:48:28)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-019 &gt; buscarPorTitulo</div><div class="test-title">Deve retornar um objeto CategoriaModel</div><div class="test-status">failed</div><div class="test-duration"> </div></div><div class="failureMessages"> <pre class="failureMsg">Error: expect(received).toBeInstanceOf(expected)
+
+Expected constructor: CategoriaModel
+
+Received value has no prototype
+Received value: null
+    at Object.toBeInstanceOf (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaDao.test.js:60:31)</pre></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CT-019 &gt; buscarPorTitulo</div><div class="test-title">Deve retornar null</div><div class="test-status">passed</div><div class="test-duration"> </div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">CT-005 &gt; editarCategoria</div><div class="test-title">Deve retornar true</div><div class="test-status">failed</div><div class="test-duration">0.001s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: expect(received).toEqual(expected) // deep equality
+
+Expected: true
+Received: false
+    at Object.toEqual (/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/CategoriaDao.test.js:100:31)</pre></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CT-005 &gt; editarCategoria</div><div class="test-title">Deve retornar false</div><div class="test-status">passed</div><div class="test-duration"> </div></div></div></div></details><details id="suite-3" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/database.test.js</div><div class="suite-time">0.081s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">CT-020 &gt; conectarBD</div><div class="test-title">deve retornar a conexão simulada</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div></div></details><details id="suite-4" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">/home/fernando/projetos/projetos_faculdade/node_projects/FitTrack/teste/ExercicioService.test.js</div><div class="suite-time">0.021s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">ExercicioService</div><div class="test-title">CT-009: Deve cadastrar exercício com todos os campos obrigatórios</div><div class="test-status">passed</div><div class="test-duration"> </div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">ExercicioService</div><div class="test-title">CT-009: Não deve cadastrar exercício sem campos obrigatórios</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">ExercicioService</div><div class="test-title">CT-009: Não deve cadastrar exercício duplicado</div><div class="test-status">passed</div><div class="test-duration"> </div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">ExercicioService</div><div class="test-title">CT-009: Não deve cadastrar exercício se não for administrador</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div></div></details></main></body></html>
