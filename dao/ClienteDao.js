@@ -35,17 +35,23 @@ class ClienteDao {
     }
 
     /**
-     * Função que consulta no banco de dados um administrador por email
+     * Função que consulta no banco de dados um cliente por email
      * @param {string} email 
      * @returns {[AdministradorModel]} lista de AdminstradorModel
      */
-    async consultarPorEmail(email){
+    async buscarPorEmail(email){
         const conexao = await conectarBD();
         const sql = "SELECT * FROM cliente WHERE email_cli = ?";
         const [ resultado ] = await conexao.query(sql, [email]);
         await conexao.end();
+
+        if(resultado.length > 0){
+            const clientes = await ClienteModel.fromDatabase(resultado)
+        } else {
+            return {};
+        }
         
-        return resultado.length > 0 ? await ClienteModel.fromDatabase(resultado) : {};
+        return clientes[0];
     }
 
     /**
@@ -78,15 +84,27 @@ class ClienteDao {
                 foto_cli = ? 
             where cod_cli = ?;```;
 
-        const [ resultado ] = await conexao.execute(sql, cliente.toUpdateArray());
-
-        await conexao.end();
+        const [ resultado ] = await conexao.query(sql, cliente.toUpdateArray());
 
         if(resultado.afectedRows > 0){
             return true;
         }
 
         return false;
+    }
+
+    async buscarPorId(id){
+        const sql = 'SELECT * FROM cliente WHERE cod_cli = ?';
+        const conexao = await conectarBD();
+        const [ resultado ] = await conexao.query(sql, [id]);
+
+        const cliente = [];
+        
+        if(resultado.length > 0){
+            cliente = ClienteModel.fromDatabase(resultado);            
+        }
+
+        return cliente[0];
     }
 }
 

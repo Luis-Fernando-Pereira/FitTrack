@@ -28,18 +28,12 @@ describe('CT-007', () => {
 
     describe('criarCategoria', () => {
 
-        test('Deve retornar instancia de CategoriaModel', async () => {
+        test('Deve retornar instancia de CategoriaModel com novo id e titulo', async () => {
             const resultado = await service.criarCategoria('Pernas');
             expect(resultado).toBeInstanceOf(CategoriaModel);
-        });
-    
-        test('Deve retornar CategoriaModel com novo id e titulo', async () => {
-            const resultado = await service.criarCategoria('Pernas');
-    
             expect(resultado.codigo).toEqual(3);
             expect(resultado.titulo).toEqual('Pernas');
         });
-    
     
         test('Deve retornar erro: Já existe uma categoria com esse nome', async () => {
             await expect(service.criarCategoria('Força')).rejects.toThrow('Já existe uma categoria com esse nome.');
@@ -63,20 +57,12 @@ describe('CT-019', () => {
         test('Deve retornar Array com dados simulados', async () => {
             const resultado = await service.listarCategorias();
     
+            expect(resultado).toBeInstanceOf(Array);
+            expect(resultado[0]).toBeInstanceOf(CategoriaModel);
             expect(resultado).toEqual([
                 new CategoriaModel({codigo: 1, titulo: 'Força'}),
                 new CategoriaModel({codigo: 2, titulo: 'Estamina'})
             ]);
-        });
-    
-        test('Deve retornar Array', async () => {
-            const resultado = await service.listarCategorias();
-            expect(resultado).toBeInstanceOf(Array);
-        });
-    
-        test('Deve retornar instancia de CategoriaModel como primeiro item da array', async () => {
-            const resultado = await service.listarCategorias();
-            expect(resultado[0]).toBeInstanceOf(CategoriaModel);
         });
     
         test('Deve retornar array vazia', async () => {

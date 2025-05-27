@@ -19,7 +19,7 @@ describe('CT-020', () => {
                 database: 'fittrack'
             });
 
-            expect(conexao).toBe(conexaoFake);
+            expect(conexao).toBe(conexaoMock);
         });
     });
 });
