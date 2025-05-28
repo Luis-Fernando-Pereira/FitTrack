@@ -1,6 +1,5 @@
 const { AdministradorDao } = require('../dao/AdministradorDao');
 const { FuncoesUtil } = require('../util/FuncoesUtil');
-const { AdministradorDao } = require('../dao/AdministradorDao');
 const { AdministradorModel } = require('../model/AdministradorModel');
 
 class AdministradorService {
@@ -34,7 +33,7 @@ class AdministradorService {
     }
 
     async criarNovoAdministrador(email, senha, nome, foto){        
-        this.validar(email,senha,foto);
+        await this.validar(email,senha,foto);
         const dao = new AdministradorDao();
 
         if(this.existeAdministrador(email)){
@@ -117,7 +116,7 @@ class AdministradorService {
     }
 
     async validaFoto(foto){
-        if(!FuncoesUtil.existeArquivo(foto))
+        if(!foto || foto.length == 0)
         {
             throw Error('Foto não encontrada');
         }
