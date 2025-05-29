@@ -65,5 +65,4 @@ exports.atualizarCliente = async function (req, res, next){
             cliente: cliente
         });
     }
-    
 }

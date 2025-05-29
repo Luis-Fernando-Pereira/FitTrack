@@ -1,70 +1,158 @@
 const { conectarBD } = require("../database");
+const { ExercicioModel } = require("../model/ExercicioModel");
 const { TreinoModel } = require("../model/TreinoModel");
 
 class TreinoDao{
     constructor(){
         this.conexao = conectarBD();
     }
-
+    
+    /**
+     * Função que busca por todos os registros de treinos no banco
+     * de dados.
+     * @returns {Object} objeto com - 
+     * - {boolean} sucesso  - indica se a operação foi bem sucedida
+     * - {Array<Object>}    - Array com linhas encontradas pela operação
+     * - {string} mensagem  - Presente se nenhuma linha foi encontrada ou ocorreu erro
+     * - {Error} erro       - Objeto de erro em caso de falha inesperada.
+     */
     async listarTodos(){
-        const sql ='SELECT * FROM treino;';
-        const [ resultado ] = await this.conexao.query(sql);
-
-        await this.conexao.end();
-
-        
+        try{
+            const sql ='SELECT * FROM treino;';
+            const [ resultado ] = await (await this.conexao).query(sql);
+    
+            return resultado.length > 0 
+                ? { sucesso: true,  resultado: resultado }
+                : { sucesso: false, mensagem: "Nenhum dado encontrado"};
+        }catch(erro){
+            return { sucesso: false, mensagem: "Houve algum erro durante execução", erro};
+        }
     }
 
     /**
      * Função que insere um novo treino no banco de dados
      * @param {TreinoModel} model retorna um objeto modelo de 
-     * treino em caso de sucesso. Caso contrário, retorna false. 
+     * @returns {Object} objeto com - 
+     * - {boolean} sucesso - indica se a operação foi bem sucedida
+     * - {Number} novoId campo com novo id registrado
+     * - {string} mensagem - Presente se nenhuma linha foi inserida ou ocorreu erro
+     * - {Error} erro - Objeto de erro em caso de falha inesperada.
      */
-    async inserir(treino){
+    async inserir(treino){    
+        try{
+            const sql = 'INSERT INTO treino(descricao_tre, titulo_tre) values (?,?);';
+            const [ results ] = await (await this.conexao).query(sql, treino.toInsertArray());
+            const { insertId } = results;
     
-        const sql = 'INSERT INTO treino(descricao_tre, titulo_tre) values (?,?);';
-        const { insertid } = await this.conexao.query(sql, treino.toInsertArray());
+            if(!insertid){
+                return {sucesso: false, mensagem: "Não foi possível inserir dados no banco de dados."};
+            }
+            return { sucesso: true, novoId: insertId};
         
-        await this.conexao.end();
-
-        if(!insertid){
-            return false;
+        }catch(erro){
+            return { sucesso: false, mensagem: "Houve algum erro durante execução", erro};
         }
-
-        model.codigo = insertid;
-
-        return model;
+        
     }
 
     /**
      * Função que atualiza registro de treino no banco de dados
      * @param {TreinoModel} treino 
-     */
+     * @returns {Object} objeto com - 
+     * - {boolean} sucesso - indica se a operação foi bem sucedida
+     * - {string} mensagem - Presente se nenhuma linha foi alterada ou ocorreu erro
+     * - {Error} erro - Objeto de erro em caso de falha inesperada.
+    */
     async atualizar(treino){
-        const sql = 'UPDATE treino set descricao_tre = ?, titulo_tre = ? WHERE cod_tre = ?';
-        const { affectedRows } = await this.conexao.query(sql, treino.toUpdateArray());
+        try{
+            const sql = 'UPDATE treino set descricao_tre = ?, titulo_tre = ? WHERE cod_tre = ?';
+            const [ resultado ] = await (await this.conexao).query(sql, treino.toUpdateArray());
+            const { affectedRows } = resultado;
 
-        await this.conexao.end();
+            if(!affectedRows){
+                return {sucesso: false, mensagem: "Nenhuma linha foi alterada."};
+            }
 
-        if(!affectedRows || affectedRows.length < 1){
-            return false;
+            return {sucesso: true};
+        }catch(erro){
+            return {sucesso: false, mensagem: "Erro ao atualizar dados.", erro};
         }
-
-        return true;
     }
 
     /**
      * Função que deleta um registro de treino no banco de dados
      * @param {TreinoModel} treino 
-     */
+     * @returns objeto com - 
+     * - {boolean} sucesso - indica se a operação foi bem sucedida
+     * - {string} mensagem - Presente se nenhuma linha foi alterada ou ocorreu erro
+     * - {Error} erro - Objeto de erro em caso de falha inesperada.
+    */
     async deletar(treino){
-        const sql = 'DELETE FROM treino WERE cod_tre = ?';
-        const { affectedRows } = await this.conexao.query(sql, [treino.codigo]);
+        try{
+            const sql = 'DELETE FROM treino WHERE cod_tre = ?';
+            const [ resultado ] = await (await this.conexao).query(sql, [treino.codigo]);
+            const { affectedRows } = resultado;
 
-        if(!affectedRows || affectedRows.length < 1 || affectedRows.length > 1){
-            return false;
+            if(!affectedRows){
+                return {sucesso: false, mensagem: "Nenhuma linha foi deletada."};
+            }
+
+            return {sucesso: true};
+        }catch(erro){
+            return {sucesso: false, mensagem: "Falha ao deletar treino", erro};
+        }
+    }
+
+        /**
+         * 
+         * @param {TreinoModel} treino 
+         * @returns objeto com - 
+         * - {boolean} sucesso - indica se a operação foi bem sucedida
+         * - {Array<Object>} novosIds - array com objetos obtendo ids inseridos.
+         * - {string} mensagem - Presente se nenhuma linha foi inserida ou ocorreu erro
+         * - {Error} erro - Objeto de erro em caso de falha inesperada.
+        */
+        async inserirExercicios(treino){
+            try{
+                const sql = "INSERT INTO treino_exercicio(treino, exercicio) VALUES ?";
+                const [ resultado ] = await (await this.conexao).query(sql, treino.toInsertTreinoExercicioArray());
+                const { affectedRows } = resultado;
+                
+                if(!affectedRows){
+                    return { sucesso: false, mensagem: "Falha ao inserir exercicios ao treino."};
+                }
+
+                const novosIds = [];
+                treino.exercicios.forEach( 
+                    exercicio => novosIds.push({treino: treino.codigo, exercicio: exercicio.codigo}));
+
+                return { sucesso: true, novosIds: novosIds};
+            }catch(erro){
+                return { sucesso: false, mensagem: "Erro inesperado ao inserir exercicios ao treino", erro};
+            }
         }
 
-        return true;
-    }
+        /**
+         * 
+         * @param {TreinoModel} treino 
+         * @param {ExercicioModel} exercicio 
+         * - {boolean} sucesso - indica se a operação foi bem sucedida
+         * - {string} mensagem - Presente se nenhuma linha foi deletada ou ocorreu erro
+         * - {Error} erro - Objeto de erro em caso de falha inesperada.
+        */
+        async removerExercicio(treino, exercicio){
+            try{
+                const sql = "DELETE FROM treino_exercicio WHERE treino = ? AND exercicio = ?";
+                const [ resultado ] = await this.conexao.query(sql, [treino.codigo, exercicio.codigo]);
+                const { affectedRows } = resultado;
+
+                if(!affectedRows){
+                    return { sucesso: false, mensagem: "Nenhuma linha deletada"};
+                }
+
+                return { sucesso: true };
+            }catch(erro){
+                return { sucesso: false, mensagem: "Erro inesperado ao deletar exercicio de treino", erro };
+            }
+        }
 }

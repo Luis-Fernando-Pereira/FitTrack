@@ -1,15 +1,18 @@
+const { ExercicioModel } = require('../model/ExercicioModel');
+
 class TreinoModel {
     /**
      * 
-     * @param {Number} codigo 
-     * @param {string} descricao 
-     * @param {string} titulo 
-     * @param {Array} exercicios 
+     * @param {Number} codigo código identificador de treino
+     * @param {string} descricao Breve descrição do treino
+     * @param {string} titulo titulo do treino
+     * @param {Array<ExercicioModel>} exercicios array de ExercicioModel
      */
     constructor(codigo, descricao, titulo, exercicios){
         this.codigo = codigo;
         this.descricao = descricao;
         this.titulo = titulo;
+        this.exercicios = exercicios;
     }
 
     /**
@@ -37,6 +40,13 @@ class TreinoModel {
             this.titulo,
             this.codigo
         ];
+    }
+
+    toInsertTreinoExercicioArray(){
+        const exercicios_treino = []; 
+        this.exercicios.forEach(exercicio => exercicios_treino.push(
+            [this.codigo, exercicio.codigo]));
+        return [exercicios_treino];
     }
 }
 
