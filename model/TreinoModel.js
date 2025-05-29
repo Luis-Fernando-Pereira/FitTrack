@@ -15,6 +15,12 @@ class TreinoModel {
         this.exercicios = exercicios;
     }
 
+    arrayComCodigoExercicios(){
+        let listaCodigoExercicios = [];
+        this.exercicios.forEach(exercicio => listaCodigoExercicios.push(exercicio.codigo));
+        return listaCodigoExercicios;
+    }
+
     /**
      * Função para converter propriedades do objeto para uma array
      * @returns {Array} retorna dados da objeto em um formato 

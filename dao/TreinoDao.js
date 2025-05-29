@@ -10,11 +10,11 @@ class TreinoDao{
     /**
      * Função que busca por todos os registros de treinos no banco
      * de dados.
-     * @returns {Object} objeto com - 
-     * - {boolean} sucesso  - indica se a operação foi bem sucedida
-     * - {Array<Object>}    - Array com linhas encontradas pela operação
-     * - {string} mensagem  - Presente se nenhuma linha foi encontrada ou ocorreu erro
-     * - {Error} erro       - Objeto de erro em caso de falha inesperada.
+     * @returns objeto com - 
+     * - {boolean} sucesso      - indica se a operação foi bem sucedida
+     * - {Array<Object>} lista  - Array com linhas encontradas pela operação
+     * - {string} mensagem      - Presente se nenhuma linha foi encontrada ou ocorreu erro
+     * - {Error} erro           - Objeto de erro em caso de falha inesperada.
      */
     async listarTodos(){
         try{
@@ -22,7 +22,7 @@ class TreinoDao{
             const [ resultado ] = await (await this.conexao).query(sql);
     
             return resultado.length > 0 
-                ? { sucesso: true,  resultado: resultado }
+                ? { sucesso: true,  lista: resultado }
                 : { sucesso: false, mensagem: "Nenhum dado encontrado"};
         }catch(erro){
             return { sucesso: false, mensagem: "Houve algum erro durante execução", erro};
@@ -135,22 +135,19 @@ class TreinoDao{
     /**
      * 
      * @param {TreinoModel} treino 
-     * @param {ExercicioModel} exercicio 
      * - {boolean} sucesso - indica se a operação foi bem sucedida
      * - {string} mensagem - Presente se nenhuma linha foi deletada ou ocorreu erro
      * - {Error} erro - Objeto de erro em caso de falha inesperada.
     */
-    async removerVinculoExercicio(treino, exercicio){
+    async removerVinculoExercicio(treino){
         try{
-            const sql = "DELETE FROM treino_exercicio WHERE treino = ? AND exercicio = ?";
-            const [ resultado ] = await this.conexao.query(sql, [treino.codigo, exercicio.codigo]);
+            const sql = "DELETE FROM treino_exercicio WHERE treino = ? AND exercicio in (?)";
+            const [ resultado ] = await this.conexao.query(sql, [treino.codigo, treino.arrayComCodigoExercicios()]);
             const { affectedRows } = resultado;
 
-            if(!affectedRows){
-                return { sucesso: false, mensagem: "Nenhuma linha deletada"};
-            }
-
-            return { sucesso: true };
+            return affectedRows > 0
+            ? { sucesso: true }
+            : { sucesso: false, mensagem: "Nenhuma linha deletada"}
         }catch(erro){
             return { sucesso: false, mensagem: "Erro inesperado ao deletar exercicio de treino", erro };
         }

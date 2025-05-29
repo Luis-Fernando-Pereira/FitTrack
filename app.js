@@ -4,13 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var clienteRouter = require('./routes/cliente');
-var adminRouter = require('./routes/admin');
-var clienteCategoriasRouter = require('./routes/categorias');
-var exercicioRouter = require('./routes/exercicio');
-var comentariosRouter = require('./routes/comentarios');
-var categoriaExercicioRouter = require('./routes/categoria_exercicio');
+var treinoRouter =              require('./routes/admin/treino');
+var indexRouter =               require('./routes/index');
+var clienteRouter =             require('./routes/cliente');
+var adminRouter =               require('./routes/admin');
+var clienteCategoriasRouter =   require('./routes/categorias');
+var exercicioRouter =           require('./routes/exercicio');
+var comentariosRouter =         require('./routes/comentarios');
+var categoriaExercicioRouter =  require('./routes/categoria_exercicio');
 
 var app = express();
 
@@ -24,12 +25,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/cliente', clienteRouter);
-app.use('/admin', adminRouter);
-app.use('/categorias', clienteCategoriasRouter);
-app.use('/exercicios', exercicioRouter);
-app.use('/comentarios', comentariosRouter);
+app.use('/',                    indexRouter);
+app.use('/cliente',             clienteRouter);
+app.use('/treino',              treinoRouter);
+app.use('/admin',               adminRouter);
+app.use('/categorias',          clienteCategoriasRouter);
+app.use('/exercicios',          exercicioRouter);
+app.use('/comentarios',         comentariosRouter);
 app.use('/categoria-exercicio', categoriaExercicioRouter);
 
 // catch 404 and forward to error handler
