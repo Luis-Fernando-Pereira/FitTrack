@@ -22,7 +22,7 @@ describe('ExercicioService', () => {
         service = new ExercicioService();
     });
 
-    test('CT-009: Deve cadastrar exercício com todos os campos obrigatórios', async () => {
+    test('Deve cadastrar exercício com todos os campos obrigatórios', async () => {
         const dados = {
             titulo: 'Flexão',
             descricao: 'Exercício de peito',
@@ -37,18 +37,18 @@ describe('ExercicioService', () => {
         expect(exercicio.video).toBe('video.mp4');
     });
 
-    test('CT-009: Não deve cadastrar exercício sem campos obrigatórios', async () => {
+    test('Não deve cadastrar exercício sem campos obrigatórios', async () => {
         const dados = { titulo: '', descricao: '', tempoEstimado: null, video: null };
         await expect(service.criarExercicio(dados, usuarioAdmin)).rejects.toThrow('Título, descrição e tempo estimado são obrigatórios');
     });
 
-    test('CT-009: Não deve cadastrar exercício duplicado', async () => {
+    test('Não deve cadastrar exercício duplicado', async () => {
         service.exercicioDao = { buscarPorTitulo: jest.fn().mockResolvedValue({ titulo: 'Flexão' }) };
         const dados = { titulo: 'Flexão', descricao: 'desc', tempoEstimado: 5, video: null };
         await expect(service.criarExercicio(dados, usuarioAdmin)).rejects.toThrow('Já existe um exercício com esse título.');
     });
 
-    test('CT-009: Não deve cadastrar exercício se não for administrador', async () => {
+    test('Não deve cadastrar exercício se não for administrador', async () => {
         const dados = { titulo: 'Flexão', descricao: 'desc', tempoEstimado: 5, video: null };
         await expect(service.criarExercicio(dados, usuarioComum)).rejects.toThrow('Apenas administradores podem criar exercícios');
     });

@@ -9,6 +9,8 @@ var clienteRouter = require('./routes/cliente');
 var adminRouter = require('./routes/admin');
 var clienteCategoriasRouter = require('./routes/categorias');
 var exercicioRouter = require('./routes/exercicio');
+var comentariosRouter = require('./routes/comentarios');
+var categoriaExercicioRouter = require('./routes/categoria_exercicio');
 
 var app = express();
 
@@ -27,6 +29,8 @@ app.use('/cliente', clienteRouter);
 app.use('/admin', adminRouter);
 app.use('/categorias', clienteCategoriasRouter);
 app.use('/exercicios', exercicioRouter);
+app.use('/comentarios', comentariosRouter);
+app.use('/categoria-exercicio', categoriaExercicioRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
