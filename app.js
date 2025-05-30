@@ -12,6 +12,7 @@ var clienteCategoriasRouter =   require('./routes/categorias');
 var exercicioRouter =           require('./routes/exercicio');
 var comentariosRouter =         require('./routes/comentarios');
 var categoriaExercicioRouter =  require('./routes/categoria_exercicio');
+var avaliacaoRouter =           require('./routes/avaliacao');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use('/categorias',          clienteCategoriasRouter);
 app.use('/exercicios',          exercicioRouter);
 app.use('/comentarios',         comentariosRouter);
 app.use('/categoria-exercicio', categoriaExercicioRouter);
+app.use('/avaliacao',           avaliacaoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
