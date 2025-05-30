@@ -142,7 +142,7 @@ class TreinoDao{
     async removerVinculoExercicio(treino){
         try{
             const sql = "DELETE FROM treino_exercicio WHERE treino = ? AND exercicio in (?)";
-            const [ resultado ] = await this.conexao.query(sql, [treino.codigo, treino.arrayComCodigoExercicios()]);
+            const [ resultado ] = await this.conexao.query(sql, [treino.codigo, treino.arrayCodigoExercicios()]);
             const { affectedRows } = resultado;
 
             return affectedRows > 0
