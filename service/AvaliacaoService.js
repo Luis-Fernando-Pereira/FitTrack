@@ -2,30 +2,33 @@ const { AvaliacaoDao } = require('../dao/AvaliacaoDao');
 const { AvaliacaoModel } = require('../model/AvaliacaoModel');
 
 class AvaliacaoService {
-    async avaliarTreino(cliente, treino, nota) {
-        if (!cliente || !treino || typeof nota !== 'number') {
-            throw new Error('Cliente, treino e nota são obrigatórios.');
+    async avaliarTreino(cliente, treino, nota, comentario) {
+        if (!cliente) {
+            throw new Error('Usuário não autenticado.');
         }
-        if (nota < 0 || nota > 10) {
-            throw new Error('A nota deve estar entre 0 e 10.');
+        if (!treino) {
+            throw new Error('Treino não informado.');
+        }
+        if (typeof nota !== 'number' || nota < 1 || nota > 5) {
+            throw new Error('Nota inválida.');
         }
         const dao = new AvaliacaoDao();
-        await dao.inserirOuAtualizar(new AvaliacaoModel({ cliente, treino, nota }));
+        const avaliacao = new AvaliacaoModel({
+            cliente,
+            treino,
+            nota,
+            comentario,
+            dataHora: new Date()
+        });
+
+        const insertId = await dao.inserirOuAtualizar(avaliacao);
+        avaliacao.codigo = insertId;
+        return avaliacao;
     }
 
     async listarAvaliacoesPorTreino(treino) {
         const dao = new AvaliacaoDao();
         return await dao.buscarPorTreino(treino);
-    }
-
-    async buscarAvaliacaoDoCliente(cliente, treino) {
-        const dao = new AvaliacaoDao();
-        return await dao.buscarPorClienteETreino(cliente, treino);
-    }
-
-    async calcularMediaPorTreino(treino) {
-        const dao = new AvaliacaoDao();
-        return await dao.calcularMediaPorTreino(treino);
     }
 }
 
