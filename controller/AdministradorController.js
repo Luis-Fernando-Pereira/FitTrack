@@ -26,11 +26,11 @@ exports.renderizarDashboard = function (req,res,next){
     res.render('admin/dashboard');
 }
 
-exports.renderizarAdministradores = function (req, res, next){
+exports.renderizarAdministradores = async function (req, res, next){
     const service = new AdministradorService();
-    const administradores = service.consultarTodos();
+    const administradores = await service.consultarTodos();
 
-    res.render('admin/administradores', { administradores });
+    res.render('admin/administradores', { titulo: "Administradores", administradores });
 }
 
 exports.autenticar = async function(req, res, next){
