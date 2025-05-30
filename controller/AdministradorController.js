@@ -6,8 +6,10 @@ const { AdministradorService } = require("../service/AdministradorService");
  * @param {*} res 
  * @param {*} next 
  */
-exports.login = function (req, res, next){
-    res.render('admin/index', {
+exports.renderLogin = function (req, res, next){
+    res.render('admin/index',
+    {
+        title: "Login",
         sucesso: null,
         mensagem: null,
         login: false            
@@ -53,7 +55,7 @@ exports.autenticar = async function(req, res, next){
             })
         }
         
-        res.redirect('admin/dashboard');
+        res.redirect('dashboard');
     }catch(error){
         res.render('admin/index', {
             sucesso: false,
