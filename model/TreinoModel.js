@@ -15,7 +15,12 @@ class TreinoModel {
         this.exercicios = exercicios;
     }
 
-    arrayComCodigoExercicios(){
+    /**
+     * Função que gera uma array com apenas código dos exercícios do treino
+     * @returns {Array<Number>} array com apenas código dos 
+     * exercicios do treino. 
+     */
+    arrayCodigoExercicios(){
         let listaCodigoExercicios = [];
         this.exercicios.forEach(exercicio => listaCodigoExercicios.push(exercicio.codigo));
         return listaCodigoExercicios;
