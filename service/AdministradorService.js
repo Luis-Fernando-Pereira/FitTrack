@@ -63,7 +63,7 @@ class AdministradorService {
 
     /**
      * Função que busca por todos os administradores no banco de dados.
-     * @returns {array|false} retorna uma lista de administradores. Se não 
+     * @returns {Array<AdministradorModel>} retorna uma lista de administradores. Se não 
      * houver administradores cadastrados no bano de dados, retorna falso.
      */
     async consultarTodos() {
@@ -71,22 +71,8 @@ class AdministradorService {
         const dao = new AdministradorDao();
         const resultado = await dao.listarTodos();
 
-        if(resultado.length == 0){
-            return false;
-        }
+        var administradores = AdministradorModel.fromDatabase(resultado);
 
-        var administradores = [];
-
-        resultado.forEach(element => {
-            administradores.push( new AdministradorModel(
-                element.cod_admin,
-                element.nome_admin,
-                element.email_admin,
-                element.senha_admin,
-                element.foto_admin
-            ));
-        });
-        
         return administradores;
     }
 

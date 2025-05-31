@@ -54,9 +54,8 @@ class AdministradorDao {
         const conexao = await conectarBD();
         const sql = 'select * from administrador;';
         const [dadosEncontrados] = await conexao.query(sql);
-        await conexao.end();
         
-        return dadosEncontrados.length > 0 ? AdministradorModel.fromDatabase(dadosEncontrados) : {};
+        return dadosEncontrados;
     }
     
     /**

@@ -29,20 +29,20 @@
             
             <ul>
                 <a href="dashboard">
-                    <li class="py-2 px-2 border bg-orange-800 hover:bg-orange-800 border-gray-600">Início</li>
+                    <li class="py-2 px-2 border hover:bg-orange-800 border-gray-600">Início</li>
                 </a>
 
                 <li>
-                    <button id="btnUsuarios" class="w-full text-left py-2 px-2 border-b hover:bg-orange-800 border-gray-600 flex justify-between items-center">
+                    <button id="btnUsuarios" class="w-full text-left py-2 px-2 border-b bg-orange-700 hover:bg-orange-800 border-gray-600 flex justify-between items-center">
                         Usuários
                         <svg id="arrowUsuarios" class="w-4 h-4 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
-                    <ul id="submenuUsuarios" class="pl-4 bg-orange-700 max-h-0 overflow-hidden transition-[max-height] duration-300 ease-in-out">
+                    <ul id="submenuUsuarios" class="pl-4 bg-orange-700 overflow-hidden transition-[max-height] duration-300 ease-in-out">
                         <a href="administradores"> 
-                            <li class="py-1 px-2 border-b hover:bg-orange-800 border-gray-600 cursor-pointer">Administradores</li>
+                            <li class="py-1 px-2 border-b bg-orange-800 hover:bg-orange-800 border-gray-600 cursor-pointer">Administradores</li>
                         </a>
                         <a href="clientes">
                             <li class="py-1 px-2 border-b hover:bg-orange-800 border-gray-600 cursor-pointer">Clientes</li>
@@ -71,8 +71,41 @@
         
         <div class="w-full h-[100%] flex">
             <div class="ml-auto w-[85%] p-10 h-[95%]">
-                <div class="bg-white rounded-xl w-full h-[100%] border-2 border-orange-600">
-    
+                <div class="bg-white rounded-xl w-full h-[100%] border-2 border-orange-600 pb-12 pt-10">
+
+                    <div class="flex flex-col items-end  h-full px-10">
+                        <div class="flex-row mb-4">
+                            <button class="bg-green-500 rounded h-10 p-2 hover:bg-green-700 text-white font-bold">
+                                Novo Administrador
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto border-2 border-orange-600 rounded-xl w-full h-[100%]">
+                            <table class="w-full text-left text-blue-900">
+                                <thead>
+                                    <tr class="bg-blue-800 text-white">
+                                        <th class="px-4 py-2">Código</th>
+                                        <th class="px-4 py-2">Nome</th>
+                                        <th class="px-4 py-2">Email</th>
+                                        <th class="px-4 py-2 text-right">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% administradores.forEach(admin => { %>
+                                        <tr class="border-b border-orange-600 hover:bg-blue-700 hover:text-white">
+                                            <td class="px-4 py-2"><%= admin.codigo %></td>
+                                            <td class="px-4 py-2"><%= admin.nome %></td>
+                                            <td class="px-4 py-2"><%= admin.email %></td>
+                                            <td class="px-4 py-2 text-right">
+                                                <a href="/admin/atualizar/<%= admin.codigo %>" class="text-blue-400 hover:text-blue-300 mr-2">Atualizar</a>
+                                                <a href="/admin/atualizar/<%= admin.codigo %>" class="text-red-400 hover:text-red-300">Excluir</a>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
