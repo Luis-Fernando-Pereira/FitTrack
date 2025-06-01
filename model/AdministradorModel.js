@@ -20,8 +20,8 @@ class AdministradorModel {
             adminModelList.push(
                 new AdministradorModel(
                     result.cod_admin,
-                    result.email_admin,
                     result.nome_admin,
+                    result.email_admin,
                     result.senha_admin,
                     result.foto_admin
                 )

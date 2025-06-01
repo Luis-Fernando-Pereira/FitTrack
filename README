@@ -4,3 +4,21 @@ Autores: Luis Fernando Pereira
          Miguel Angelo Dufloth
 
 Link do protótipo do figma: https://www.figma.com/design/LHGRpNWGQ8zb3AbdjtV8kF/FitTrack?node-id=0-1&t=w62C3P4ug4JVG4no-1
+
+Projeto feito com node e Express.
+rodar npm install antes de qualquer execução para baixar todas as bibliotecas.
+
+acesso a login de administrador em https://localhost:3000/admin/
+
+Telas prontas:
+ - Administrador: 
+   - login
+   - administradores
+
+Para alinhar o banco de dadoos, realizar importação de arquivos .sql pela ordem numérica encontrada no diretório hitorico_sql
+
+Login de administrador para testes:
+   login: admin@email.com 
+   senha: 123
+
+Back-end 90% completo.

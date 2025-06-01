@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const methodOverride = require('method-override');
 
 // var indexRouter =               require('./routes/admin');
 var treinoRouter =              require('./routes/treino');
@@ -24,7 +25,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+//serve pasta javascript de maneira estática
+app.use('/javascript', express.static(path.join(__dirname, 'javascript')));
+
 
 // app.use('/',                    indexRouter);
 app.use('/cliente',             clienteRouter);
@@ -51,5 +57,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.use(express.static('javascript'));
 
 module.exports = app;
