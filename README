@@ -5,6 +5,8 @@ Autores: Luis Fernando Pereira
 
 Link do protótipo do figma: https://www.figma.com/design/LHGRpNWGQ8zb3AbdjtV8kF/FitTrack?node-id=0-1&t=w62C3P4ug4JVG4no-1
 
+Projeto feito com node e Express.
+rodar npm install antes de qualquer execução para baixar todas as bibliotecas.
 
 Telas prontas:
 Administrador: 
