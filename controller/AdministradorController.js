@@ -65,7 +65,6 @@ exports.autenticar = async function(req, res, next){
     }    
 }
 
-
 /**
  * endpoint para criação de novo administrador
  * @param {*} req 
@@ -75,38 +74,66 @@ exports.autenticar = async function(req, res, next){
  */
 exports.novoAdmin =  async function (req, res, next) {
     try{        
-        const {email, senha, foto, nome} = req.body;
-        if(!email || !senha || !nome){
-            res.render('admin/novo-admin', {
-                sucesso: false,
-                mensagem: "Campos obrigatórios devem estar preenchidos!",
-                cadastro: true
-            });
+        let dados = req.body;
+        const service = new AdministradorService();
+        
+        if (req.file) {
+            dados.foto = '/images/usuarios/' + req.file.filename; // caminho relativo público
+        } else {
+            dados.foto = '/images/assets/avatar.png';
+        }
+
+        const novoAdmin = await service.criarNovoAdministrador(dados);
+
+        if(!novoAdmin){
+            return res.status(200).json({ sucesso: false, mensagem: "Dados de cadastro inválidos!"});
+        }
+
+        return res.status(201).json({ sucesso: true, mensagem: "Administrador cadastrado com sucesso!", usuario: novoAdmin });
+
+    }catch(erro){
+        return res.status(500).json({ sucesso: false, mensagem: "Falha ao cadastrar administrador!", erro: erro.message});
+    }
+}
+
+exports.atualizarAdministrador = async function(req, res, next){
+    try{
+        let dados = req.body;
+        const id = req.params.id;
+
+        if (req.file) {
+            dados.foto = '/images/usuarios/' + req.file.filename; // caminho relativo público
         }
 
         const service = new AdministradorService();
-        
-        if(service.existeAdministrador(email)){
-            res.render('admin/novo-admin', {
-                sucesso: false,
-                mensagem: "Este email já está cadastrado!",
-                cadastro: true
-            });
-        }
+    
+        const atualizado = await service.atualizarAdministrador(dados, id);
 
-        const novoAdmin = service.criarNovoAdministrador(email, senha, foto, nome);
-
-        if(!novoAdmin){
-            res.render('admin/novo-admin', {
-                
-            })
+        if (atualizado) {
+            return res.status(200).json({sucesso: true, mensagem: "Administrador atualizado com sucesso!" });
+        } else {
+            return res.status(400).json({ sucesso: false, mensagem: "Não foi possível atualizar o administrador." });
         }
 
     }catch(erro){
-        res.render('/admin/novo-administrador', {
-            sucesso: false,
-            mensagem: "Erro ao inserir novo administrador"
-        });
+        return res.status(500).json({ sucesso: false, mensagem: "Erro inesperado ao atualzar registro", erro: erro.message});
+    }
+}
+
+exports.deletarAdministrador = async function(req, res, next) {
+    try{
+        const id = req.params.id;
+        const service = new AdministradorService();    
+        const deletado = await service.deletarAdministrador(id);
+
+        if (deletado) {
+            return res.status(200).json({ sucesso: true, mensagem: "Administrador deletado com sucesso!"});
+        } else {
+            return res.status(400).json({ sucesso: false, mensagem: "Não foi possível deletar o administrador." });
+        }
+
+    }catch(erro){
+        return res.status(500).json({ sucesso: false, mensagem: "Erro inesperado ao deletar administrador!", erro: erro.message });
     }
 }
 
