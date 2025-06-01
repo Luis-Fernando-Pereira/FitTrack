@@ -8,30 +8,11 @@ class ClienteDao {
      * @param {ClienteModel} cliente 
      */
     async inserir(cliente){
-        const conexao = await conectarBD
+        const conexao = await conectarBD();
+        const sql = 'insert into cliente(nome_cli, email_cli, senha_cli, idade_cli, peso_cli, sexo_cli, foto_cli) values (?,?,?,?,?,?,?);';
+        const [ resultado ] = await conexao.query(sql, cliente.toInsertArray());
 
-        const sql = ```
-        insert into cliente( 
-            nome_cli, 
-            email_cli, 
-            senha_admin,
-            idade_cli,
-            peso_cli,
-            sexo_cli,
-            foto_cli
-        ) values (?,?,?,?,?,?,?);```;
-
-        const { insertId } = await conexao.query(sql, cliente.toInsertArray());
-
-        await conexao.end();
-
-        if(!insertId){
-            return false;
-        }
-
-        cliente.codigo = insertId;
-
-        return cliente;
+        return resultado.insertId > 0 ? resultado.insertId : false;
     }
 
     /**
@@ -43,15 +24,8 @@ class ClienteDao {
         const conexao = await conectarBD();
         const sql = "SELECT * FROM cliente WHERE email_cli = ?";
         const [ resultado ] = await conexao.query(sql, [email]);
-        await conexao.end();
 
-        if(resultado.length > 0){
-            const clientes = await ClienteModel.fromDatabase(resultado)
-        } else {
-            return {};
-        }
-        
-        return clientes[0];
+        return resultado.length > 0 ? await ClienteModel.fromDatabase(resultado)[0] : false;
     }
 
     /**
@@ -62,9 +36,8 @@ class ClienteDao {
         const conexao = await conectarBD();
         const sql = 'select * from cliente;';
         const [ resultado ] = await conexao.query(sql);
-        await conexao.end();
-        
-        return resultado.length > 0 ? ClienteModel.fromDatabase(resultado) : {};
+    
+        return resultado;
     }
     
     /**

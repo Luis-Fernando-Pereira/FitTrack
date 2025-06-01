@@ -14,7 +14,7 @@ async function addFormSubmitListener(formId, modalId) {
                 body: formData  // aqui vai com multipart/form-data automático
             });
             const data = await response.json();  
-
+            
             if (data.sucesso) {
                 localStorage.setItem('toastMessage', data.mensagem);
                 localStorage.setItem('toastType', 'success');
@@ -22,12 +22,39 @@ async function addFormSubmitListener(formId, modalId) {
             } else {
                 toastr.error(data.mensagem);
             }
-            
-            
         } catch (error) {
             console.error('Erro:', error);
         } finally{
-            closeModal(modalId);
+            if(modalId){
+                closeModal(modalId);
+            }
+        }
+    });
+}
+
+async function addClienteFormListener(formId) {
+    const form = document.getElementById(formId);
+            
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData  // aqui vai com multipart/form-data automático
+            });
+            const data = await response.json();  
+
+            const { sucesso, mensagem } = data;
+
+            localStorage.setItem('mensagem', mensagem);
+            localStorage.setItem('sucesso', sucesso);
+
+            location.reload();
+        } catch (error) {
+            console.error('Erro:', error);
         }
     });
 }

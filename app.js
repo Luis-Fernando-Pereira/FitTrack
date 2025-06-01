@@ -5,15 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const methodOverride = require('method-override');
 
-// var indexRouter =               require('./routes/admin');
-var treinoRouter =              require('./routes/treino');
-var adminRouter =               require('./routes/admin');
-var clienteRouter =             require('./routes/cliente');
-var clienteCategoriasRouter =   require('./routes/categoria');
-var exercicioRouter =           require('./routes/exercicio');
-var comentariosRouter =         require('./routes/comentario');
-var categoriaExercicioRouter =  require('./routes/categoria_exercicio');
-var avaliacaoRouter =           require('./routes/avaliacao');
+var adminRouter = require('./routes/admin');
+var indexRouter = require('./routes/index');
 
 var app = express();
 
@@ -32,15 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/javascript', express.static(path.join(__dirname, 'javascript')));
 
 
-// app.use('/',                    indexRouter);
-app.use('/cliente',             clienteRouter);
-app.use('/treino',              treinoRouter);
-app.use('/admin',               adminRouter);
-app.use('/categoria',           clienteCategoriasRouter);
-app.use('/exercicios',          exercicioRouter);
-app.use('/comentario',          comentariosRouter);
-app.use('/categoria-exercicio', categoriaExercicioRouter);
-app.use('/avaliacao',           avaliacaoRouter);
+app.use('/',      indexRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

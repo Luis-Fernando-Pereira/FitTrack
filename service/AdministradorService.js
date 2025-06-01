@@ -46,36 +46,23 @@ class AdministradorService {
             const dao = new AdministradorDao();
 
             if(await this.existeAdministrador(adminModel.email)){
-                this.removerFoto(adminModel.foto);
+                FuncoesUtil.removerFoto(adminModel.foto);
                 return false;
             }
 
             const insertId = await dao.inserir(adminModel);
 
             if(!insertId){
-                this.removerFoto(adminModel.foto);
+                FuncoesUtil.removerFoto(adminModel.foto);
                 return false;
             }
 
             return adminModel;
             
         }catch(erro){
-            this.removerFoto(adminModel.foto);
+            FuncoesUtil.removerFoto(adminModel.foto);
             throw new Error(erro.message);
         }
-    }
-
-    removerFoto(foto){
-        if(foto && this.fotoValidaParaRemover(foto)){
-            FuncoesUtil.removeImagem(foto);
-        }
-    }
-
-    fotoValidaParaRemover(foto){
-        if(foto !== '/images/assets/avatar.png' && foto !== ''){
-            return true;
-        }
-        return false;
     }
 
     async existeAdministrador(email){

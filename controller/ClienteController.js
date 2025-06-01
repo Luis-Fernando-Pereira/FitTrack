@@ -3,32 +3,51 @@ const { ClienteService } = require('../service/ClienteService');
 
 exports.cadastrarCliente = async function (req, res, next){
     try{
-        const body = req.body;
-        const service = new ClienteService();
-    
-        const cliente = await service.novoCliente(body);
+        let dados = req.body;
         
-        res.redirect('/login').status(201).json(
-            {
-                sucesso: true,
-                mensagem: "Usuário cadastrado com sucesso!",
-                novoCliente: cliente
-            }
-        );
+        if (req.file) {
+            dados.foto = '/images/usuarios/' + req.file.filename; // caminho relativo público
+        } else {
+            dados.foto = '/images/assets/avatar.png';
+        }
+
+        const service = new ClienteService();    
+        const cliente = await service.novoCliente(dados);
+        
+        return res.status(201).json({ 
+            sucesso: true, 
+            mensagem: "Cadastro realizado com sucesso!", 
+            cliente 
+        });
     }catch(error){
-        res.redirect('/cadastro').status(200).json({
+        res.status(200).json({
             sucesso: false,
-            mensagem: error
+            mensagem: error.message
         });
     }
 }
 
 exports.renderizarCadastroCliente = async function (req, res, next){    
-    res.render('/cadastroCliente');
+    res.render('novo-cliente', { 
+        titulo: "Cadastro",
+        sucesso: null,
+        message: null,
+    });
 }
 
 exports.renderizarLogin = async function (req, res, next){
-    res.render('/login', {sucesso: req.body.sucesso, mensagem: req.body.mensagem});
+    res.render('index', { 
+        titulo: "Login",
+        sucesso: false,
+        message: null,
+    });
+}
+
+exports.renderizarClientes = async function (req, res, next){
+    const service = new ClienteService();
+    const clientes = await service.listarTodos();
+    
+    res.render('admin/clientes', { titulo: "Clientes", clientes });
 }
 
 exports.atualizarCliente = async function (req, res, next){

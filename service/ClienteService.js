@@ -3,28 +3,42 @@ const { ClienteModel } = require('../model/ClienteModel');
 const { FuncoesUtil } = require('../util/FuncoesUtil');
 
 class ClienteService {
-    dao = new ClienteDao();
+    async novoCliente(dados){
+        let novoCliente = new ClienteModel(
+            null, 
+            dados.nome,
+            dados.email,
+            dados.senha,
+            dados.idade,
+            dados.sexo,
+            dados.peso,
+            dados.foto,
+        );
 
-    async novoCliente(reqBody){
-        let novoCliente = new ClienteModel({
-            codigo: null, 
-            nome: reqBody.nome,
-            email: reqBody.email,
-            senha: reqBody.senha,
-            foto: reqBody.foto,
-            peso: reqBody.peso,
-            sexo: reqBody.sexo
-        });
+        try{
+            await this.validaDadosCadastrais(novoCliente);
         
-        await this.validaDadosCadastrais(novoCliente);
-        
-        novoCliente = await this.dao.inserir(novoCliente);
+            const dao = new ClienteDao();
+            novoCliente.codigo = await dao.inserir(novoCliente);
 
-        if(!novoCliente){
-            throw Error("Falha inesperada ao realizar cadastro");
-        }
+            if(!novoCliente.codigo){
+                FuncoesUtil.removerFoto(novoCliente.foto);
+                throw Error("Falha inesperada ao realizar cadastro");
+            }
 
-        return novoCliente;
+            return novoCliente;
+
+        }catch(erro){
+            FuncoesUtil.removerFoto(novoCliente.foto);
+            throw new Error(erro.message);
+        }        
+    }
+
+    async listarTodos(){
+        const dao = new ClienteDao();
+        const clientes = await ClienteModel.fromDatabase(await dao.listarTodos());
+
+        return clientes;
     }
 
     async atualizarCliente(reqBody, id){
@@ -100,12 +114,11 @@ class ClienteService {
     }
 
     async emailCadastrado(email){
-        const cliente = await this.dao.buscarPorEmail(email);
-
+        const dao = new ClienteDao();
+        const cliente = await dao.buscarPorEmail(email);
         if(cliente){
             return true;
         }
-
         return false;
     }
 }

@@ -14,6 +14,19 @@ class FuncoesUtil{
         return false
     }
 
+    static removerFoto(foto){
+        if(foto && FuncoesUtil.fotoValidaParaRemover(foto)){
+            FuncoesUtil.removeImagem(foto);
+        }
+    }
+
+    static fotoValidaParaRemover(foto){
+        if(foto !== '/images/assets/avatar.png' && foto !== ''){
+            return true;
+        }
+        return false;
+    }
+
     static removeImagem(caminho){
         const fs = require('fs');
         const path = require('path');

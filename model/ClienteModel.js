@@ -11,7 +11,7 @@ class ClienteModel {
      *  foto: string
      * }}  
      */
-    constructor({codigo,nome,email,senha,idade,sexo,peso,foto}){
+    constructor(codigo,nome,email,senha,idade,sexo,peso,foto){
         this.codigo = codigo
         this.nome = nome
         this.email = email
@@ -68,7 +68,7 @@ class ClienteModel {
 
         dados.forEach(result => {
             clienteList.push(
-                new AdministradorModel(
+                new ClienteModel(
                     result.cod_cli,
                     result.nome_cli,
                     result.email_cli,
