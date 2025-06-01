@@ -8,10 +8,12 @@ Link do protótipo do figma: https://www.figma.com/design/LHGRpNWGQ8zb3AbdjtV8kF
 Projeto feito com node e Express.
 rodar npm install antes de qualquer execução para baixar todas as bibliotecas.
 
+acesso a login de administrador em https://localhost:3000/admin/
+
 Telas prontas:
-Administrador: 
- - login
- - administradores
+ - Administrador: 
+   - login
+   - administradores
 
 Para alinhar o banco de dadoos, realizar importação de arquivos .sql pela ordem numérica encontrada no diretório hitorico_sql
 
