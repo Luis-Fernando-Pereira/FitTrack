@@ -3,6 +3,25 @@ const { ClienteModel } = require('../model/ClienteModel');
 const { FuncoesUtil } = require('../util/FuncoesUtil');
 
 class ClienteService {
+    async deletarCliente(codigo){
+        const dao = new ClienteDao();
+        const [ cliente ] = ClienteModel.fromDatabase(await dao.buscarPorId(codigo)); 
+        
+        if(!cliente){
+            throw new Error('Cliente não encontrado!');
+        }
+
+        const deletado = await dao.deletar(codigo);
+
+        if(!deletado){
+            return false;
+        }
+
+        FuncoesUtil.removerFoto(cliente.foto_admin);
+
+        return true;
+    }
+
     async novoCliente(dados){
         let novoCliente = new ClienteModel(
             null, 
@@ -116,9 +135,11 @@ class ClienteService {
     async emailCadastrado(email){
         const dao = new ClienteDao();
         const cliente = await dao.buscarPorEmail(email);
+        
         if(cliente){
             return true;
         }
+
         return false;
     }
 }

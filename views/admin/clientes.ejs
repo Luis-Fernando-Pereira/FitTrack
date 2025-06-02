@@ -75,6 +75,11 @@
                 <div class="bg-white rounded-xl w-full h-[100%] border-2 border-orange-600 pb-12 pt-10">
 
                     <div class="flex flex-col items-end  h-full px-10">
+                        <div class="flex-row mb-4">
+                            <button onclick="openModal('postModal')" class="bg-green-500 rounded h-10 p-2 hover:bg-green-700 text-white font-bold">
+                                Novo Cliente
+                            </button>
+                        </div>
 
                         <div class="overflow-x-auto border-2 border-orange-600 rounded-xl w-full h-[100%]">
                             <table class="w-full text-left text-blue-900">
@@ -111,12 +116,12 @@
             <div id="updateModal<%= cliente.codigo %>" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
                 <div class="bg-white rounded-xl shadow-lg transform transition-all duration-300 scale-95 w-[400px]">                                                
                     <div class="rounded-t-xl bg-blue-800 text-center py-2">
-                        <h2 class="text-xl text-white font-bold">Editar Cadastro</h2>                                                
+                        <h2 class="text-xl text-white font-bold">Editar Cliente</h2>                                                
                     </div>
                     <div id="msgResposta">
                     </div>            
                     
-                    <form id="updateForm<%= cliente.codigo %>" action="/admin/atualizarAdministrador/<%= cliente.codigo %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <form id="updateForm<%= cliente.codigo %>" action="/admin/atualizarCliente/<%= cliente.codigo %>?_method=PUT" method="POST" enctype="multipart/form-data">
                         <!-- <input type="hidden" name="_method" value="PUT"> -->
                         
                         <div class="flex flex-col items-center justify-center p-4 bg-white rounded-b-xl">
@@ -162,12 +167,10 @@
             <div id="deleteModal<%= cliente.codigo %>" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
                 <div class="bg-white rounded-xl shadow-lg transform transition-all duration-300 scale-95 w-[400px]">                                                
                     <div class="rounded-t-xl bg-red-700 text-center py-2">
-                        <h2 class="text-xl text-white font-bold">Deletar Registro</h2>                                                
+                        <h2 class="text-xl text-white font-bold">Deletar Cliente</h2>                                                
                     </div>
                     
-                    <form id="deleteForm<%= cliente.codigo %>" action="/admin/deletarAdministrador/<%= cliente.codigo %>?_method=DELETE" method="POST" enctype="multipart/form-data">
-                        <!-- <input type="hidden" name="_method" value="PUT"> -->
-                        
+                    <form id="deleteForm<%= cliente.codigo %>" action="/admin/deletarCliente/<%= cliente.codigo %>?_method=DELETE" method="POST" enctype="multipart/form-data">
                         <div class="flex flex-col items-center justify-center p-4 bg-white rounded-b-xl">
                         
                             <div class="text-center p-4">
@@ -190,6 +193,72 @@
 
         <% }) %>        
         
+        <div id="postModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+            <div class="bg-white rounded-xl shadow-lg transform transition-all duration-300 scale-95 w-[400px]">                                                
+                <div class="rounded-t-xl bg-blue-800 text-center py-2">
+                    <h2 class="text-xl text-white font-bold">Novo Cliente</h2>                                                
+                </div>
+                
+                <form id="postForm" action="/admin/novoCliente/" method="POST" enctype="multipart/form-data">
+                    
+                    <div class="flex flex-col items-center justify-center p-4 bg-white rounded-b-xl">
+                    
+                        <div class="w-full m-2">
+                            <label for="nome" class="text-blue-600 font-bold">Nome</label>
+                            <input type="text" autocomplete="name" name="nome" id="nome" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="Nome" required>
+                        </div>
+                        <div class="w-full m-2">
+                            <label for="email" class="text-blue-600 font-bold">Email</label>
+                            <input type="email" autocomplete="username" name="email" id="email" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="Email" required>
+                        </div>
+                        <div class="w-full m-2">
+                            <label for="senha" class="text-blue-600 font-bold">Senha</label>
+                            <input type="password" name="senha" id="senha" autocomplete="new-password" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="Senha" required>
+                        </div>
+                        <div class="w-full m-2">
+                            <label for="idade" class="text-blue-600 font-bold">Idade</label>
+                            <input type="number" name="idade" id="idade" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="idade" required>
+                        </div>
+                        <div class="w-full m-2">
+                            <label for="peso" class="text-blue-600 font-bold">Peso</label>
+                            <input type="number" name="peso" id="peso" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="Em Kg" required>
+                        </div>
+                        <div class="w-full m-2">
+                            <label for="sexo" class="text-blue-600 font-bold mr-2">Sexo</label>
+                            <select id="sexo" name="sexo" class="p-2 hover:bg-gray-100 border-2 border-blue-500 text-blue-600 focus:rounded focus:border-blue-600 rounded" required>
+                                <option value="M">Masculino</option>
+                                <option value="F">Feminino</option>
+                                <option value="O">Outro</option>
+                            </select>
+                        </div>
+
+                        
+                        <div class="m-2 w-full flex flex-col">                                                            
+                            <label for="foto%>" class="px-4 py-2 w-50 bg-blue-600 text-white text-center rounded cursor-pointer hover:bg-blue-700">
+                                Selecionar imagem
+                            </label>
+                            <input type="file" id="foto" name="foto" class="hidden" onchange="previewImage(event, 'preview')">
+
+                            <!-- Imagem clicável -->
+                            <div class="flex justify-center mt-2">
+                                <label for="foto" class="cursor-pointer">
+                                    <img id="preview" hidden alt="Foto" class="w-32 h-32 object-cover rounded-lg border border-gray-400"/>
+                                </label>                                                        
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <button type="submit" class="px-4 py-2 mr-2 bg-green-500 text-white font-bold rounded hover:bg-green-600">
+                                Cadastrar
+                            </button>
+                            <button type="button" onclick="closeModal('postModal')" class="px-4 py-2 font-bold bg-red-500 text-white rounded hover:bg-red-600">
+                                Fechar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         
         <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
         

@@ -90,7 +90,7 @@ class AdministradorService {
             return false;
         }
 
-        this.removerFoto(admin.foto_admin);
+        FuncoesUtil.removerFoto(admin.foto_admin);
 
         return true;
     }
@@ -121,9 +121,9 @@ class AdministradorService {
         const atualizado = await dao.atualizar(adminModel);
         
         if(!atualizado){
-            this.removerFoto(adminModel.foto);
+            FuncoesUtil.removerFoto(adminModel.foto);
         } else {
-            this.removerFoto(dadosAntigos.foto_admin)
+            FuncoesUtil.removerFoto(dadosAntigos.foto_admin)
         }
 
         return atualizado;

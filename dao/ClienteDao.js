@@ -3,6 +3,14 @@ const { ClienteModel } = require("../model/ClienteModel");
 
 class ClienteDao {
 
+    async deletar(cliente){
+        const conexao = await conectarBD();
+        const sql = 'DELETE FROM cliente WHERE cod_cli = ?';
+        const [ resultado ] = await conexao.query(sql, [cliente.codigo]);
+
+        return resultado.affectedRows > 0 ? true : false;
+    }
+
     /**
      * Função que insere novo administrador no banco de dados
      * @param {ClienteModel} cliente 
@@ -71,13 +79,7 @@ class ClienteDao {
         const conexao = await conectarBD();
         const [ resultado ] = await conexao.query(sql, [id]);
 
-        const cliente = [];
-        
-        if(resultado.length > 0){
-            cliente = ClienteModel.fromDatabase(resultado);            
-        }
-
-        return cliente[0];
+        return resultado;
     }
 }
 

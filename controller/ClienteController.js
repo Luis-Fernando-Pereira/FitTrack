@@ -1,6 +1,24 @@
 const { ClienteModel } = require('../model/ClienteModel');
 const { ClienteService } = require('../service/ClienteService'); 
 
+exports.deletarCliente = async function (req, res, next) {
+    try{
+        const id = req.params.id;
+        const service = new ClienteService();    
+        const deletado = await service.deletarCliente(id);
+
+        if (deletado) {
+            return res.status(200).json({ sucesso: true, mensagem: "Administrador deletado com sucesso!"});
+        } else {
+            return res.status(400).json({ sucesso: false, mensagem: "Não foi possível deletar o cliente." });
+        }
+
+    }catch(erro){
+        console.log(erro)
+        return res.status(500).json({ sucesso: false, mensagem: "Erro inesperado ao deletar cliente!", erro: erro.message });
+    }
+}
+
 exports.cadastrarCliente = async function (req, res, next){
     try{
         let dados = req.body;
