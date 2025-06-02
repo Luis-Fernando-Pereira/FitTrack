@@ -98,29 +98,8 @@
         <script src="/javascript/formulario.js"></script>
 
         <script>
-            addClienteFormListener('cadastro_cliente');
-            const mensagem = localStorage.getItem('mensagem');
-            const sucesso = localStorage.getItem('sucesso');
-         
-            if(sucesso !== null){
-                let resposta = document.getElementById('resposta');
-                let mensagem_resposta = document.getElementById('mensagem_resposta');
-
-                resposta.classList.add('w-full','rounded-lg', 'p-4', 'm-2');
-                mensagem_resposta.classList.add('text-white', 'text-center');
-
-                if(sucesso === 'true'){
-                    resposta.classList.add('bg-green-500');
-                    mensagem_resposta.textContent = mensagem;
-                } else {
-                    resposta.classList.add('bg-red-500')
-                    mensagem_resposta.textContent = mensagem;
-                }
-            }
-
-            localStorage.removeItem('mensagem');
-            localStorage.removeItem('sucesso');
-            
+            addFormListener('cadastro_cliente');
+            respondeEnvioDeFormulario();            
         </script>
     </body>
 </html>

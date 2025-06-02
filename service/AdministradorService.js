@@ -9,27 +9,17 @@ class AdministradorService {
      * @param {string} senha 
      * @returns 
      */
-    async autenticar(email, senha){
-        if(!email || !senha){
-            return false;
-        }
-        
-        if(FuncoesUtil.emailValido(email)){
-            return false;
-        }
+    async autenticar(email, senha){        
+        this.validaDadosLogin(email, senha);
 
         const dao = new AdministradorDao();  
-        const admin = dao.consultarPorEmail(email);       
+        const [ admin ] = await AdministradorModel.fromDatabase(await dao.consultarPorEmail(email));
 
-        if(!admin){
+        if(!this.dadosCorrespondem(admin, senha)){
             return false;
         }
 
-        if(senha !== admin.senha){
-            return false;
-        }
-
-        return true; 
+        return true;
     }
 
     async criarNovoAdministrador(dados){
@@ -42,10 +32,11 @@ class AdministradorService {
         )
 
         try{            
-            await this.validarDados(adminModel.email,adminModel.senha);
+            this.validarDados(adminModel.email,adminModel.senha);
             const dao = new AdministradorDao();
+            const existeAdmin = await this.existeAdministrador(adminModel.email); 
 
-            if(await this.existeAdministrador(adminModel.email)){
+            if(existeAdmin){
                 FuncoesUtil.removerFoto(adminModel.foto);
                 return false;
             }
@@ -67,7 +58,8 @@ class AdministradorService {
 
     async existeAdministrador(email){
         const dao = new AdministradorDao();
-        const admin =  await AdministradorModel.fromDatabase(await dao.consultarPorEmail(email));
+        const resultado = await dao.consultarPorEmail(email);
+        const admin =  await AdministradorModel.fromDatabase(resultado);
 
         if(admin.length > 0){
             return true;
@@ -81,12 +73,10 @@ class AdministradorService {
      * @returns {Array<AdministradorModel>} retorna uma lista de administradores. Se não 
      * houver administradores cadastrados no bano de dados, retorna falso.
      */
-    async consultarTodos() {
-        
+    async consultarTodos() {        
         const dao = new AdministradorDao();
         const resultado = await dao.listarTodos();
-
-        var administradores = await AdministradorModel.fromDatabase(resultado);
+        const administradores = await AdministradorModel.fromDatabase(resultado);
 
         return administradores;
     }
@@ -115,7 +105,7 @@ class AdministradorService {
      * correto
      */
     async atualizarAdministrador(admin, id){     
-        await this.validarDados(admin.email, admin.senha);
+        this.validarDados(admin.email, admin.senha);
         
         const adminModel = new AdministradorModel(
             id,
@@ -145,29 +135,79 @@ class AdministradorService {
      * @param {string} senha senha a ser inserida
      * @param {string} foto caminho da imagem a ser inserida
      */
-    async validarDados(email, senha){
-        if(await this.emailInvalido(email)){
+    validarDados(email, senha){
+        if(this.emailInvalido(email)){
             throw Error("Email inválido");
         }
 
-        if(await this.senhaInvalida(senha)){
+        if(this.senhaInvalida(senha)){
             throw Error("Senha possui mais que 18 caracteres");
         }
     }
 
-
-    async emailInvalido(email){
+    emailInvalido(email){
         if(!FuncoesUtil.emailValido(email)){
             return true;
         }
         return false;
     }
 
-    async senhaInvalida(senha){
+    senhaInvalida(senha){
         if(senha.length > 18){
             return true;
         }
         return false;
+    }
+
+    /**
+     * 
+     * @param {string} email 
+     * @param {string} senha 
+     */
+    validaDadosLogin(email, senha){
+        if(this.emailVazio(email)){
+            throw new Error("Email deve estar preenchido!");
+        }
+        
+        if(this.emailInvalido(email)){
+            throw new Error("Email inválido!");
+        }
+        
+        if(this.senhaVazia(senha)){
+            throw new Error("Senha deve estar preenchida!");
+        }
+    }
+
+    emailVazio(email){
+        if(email || email !== ""){
+            return false;
+        }
+        return true;
+    }
+
+    senhaVazia(senha){
+        if(senha || senha !== ""){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 
+     * @param {AdministradorModel} admin 
+     * @param {string} email 
+     * @param {string} senha 
+     */
+    dadosCorrespondem(admin,senha){
+        if(!admin){
+            return false;
+        }
+
+        if(senha !== admin.senha){
+            return false;
+        }
+
+        return true;
     }
 }
 

@@ -37,30 +37,24 @@ exports.autenticar = async function(req, res, next){
     const {email, senha} = req.body;
 
     try{
-        if(!emailSenhaPreenchidos(email, senha)){
-            res.render('admin/index', {
-                sucesso: false,
-                mensagem: "Email e senha devem estar preenchidos!",
-                login: true
-            });
-        }
-
         const service = new AdministradorService(); 
+        const adminAutenticado = await service.autenticar(email, senha);
 
-        if(!service.autenticar(email, senha)){
-            res.render('admin/index', {
+        if(!adminAutenticado){
+            return res.status(300).json({
                 sucesso: false,
                 mensagem: "Email ou senha inválidos",
-                login: true  
             })
         }
         
-        res.redirect('dashboard');
+        res.status(200).json({
+            sucesso: true,
+            rota: '/admin/dashboard'
+        });
     }catch(error){
-        res.render('admin/index', {
+        return res.status(400).json({
             sucesso: false,
-            mensagem: "Houve algum erro ao validar login",
-            login: true
+            mensagem: error.message
         });
     }    
 }
@@ -135,12 +129,4 @@ exports.deletarAdministrador = async function(req, res, next) {
     }catch(erro){
         return res.status(500).json({ sucesso: false, mensagem: "Erro inesperado ao deletar administrador!", erro: erro.message });
     }
-}
-
-function emailSenhaPreenchidos(email, senha){
-    if(!email || !senha){
-        return false;
-    }
-
-    return true;
 }

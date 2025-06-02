@@ -32,7 +32,7 @@ async function addFormSubmitListener(formId, modalId) {
     });
 }
 
-async function addClienteFormListener(formId) {
+async function addFormListener(formId) {
     const form = document.getElementById(formId);
             
     form.addEventListener('submit', async (e) => {
@@ -59,3 +59,64 @@ async function addClienteFormListener(formId) {
     });
 }
 
+async function addFilelessFormListener(formId) {
+    const form = document.getElementById(formId);
+            
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        try {
+            const formData = new FormData(form);
+            const dataObj = Object.fromEntries(formData.entries());
+
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataObj)
+            });
+
+            const responseData = await response.json();  
+
+            const { sucesso, mensagem, rota } = responseData;
+
+            localStorage.setItem('redirecionar', rota)
+            localStorage.setItem('mensagem', mensagem);
+            localStorage.setItem('sucesso', sucesso);
+
+            location.reload();
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    });
+}
+
+function respondeEnvioDeFormulario(){
+    const mensagem = localStorage.getItem('mensagem');
+    const sucesso = localStorage.getItem('sucesso');
+    
+    if(sucesso !== null){
+        let resposta = document.getElementById('resposta');
+        let mensagem_resposta = document.getElementById('mensagem_resposta');
+
+        resposta.classList.add('w-full','rounded-lg', 'p-4', 'm-2');
+        mensagem_resposta.classList.add('text-white', 'text-center');
+
+        if(sucesso === 'true'){
+            const rota = localStorage.getItem('rota');
+            if(rota){
+                window.location.href = rota;
+            }
+
+            resposta.classList.add('bg-green-500');
+            mensagem_resposta.textContent = mensagem;
+        } else {
+            resposta.classList.add('bg-red-500')
+            mensagem_resposta.textContent = mensagem;
+        }
+    }
+
+    localStorage.removeItem('mensagem');
+    localStorage.removeItem('sucesso');
+}
