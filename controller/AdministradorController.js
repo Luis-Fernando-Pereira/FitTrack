@@ -46,6 +46,8 @@ exports.autenticar = async function(req, res, next){
                 mensagem: "Email ou senha inválidos",
             })
         }
+
+        global.adminLogado = true;
         
         res.status(200).json({
             sucesso: true,
@@ -57,6 +59,11 @@ exports.autenticar = async function(req, res, next){
             mensagem: error.message
         });
     }    
+}
+
+exports.logout = async function(req, res, next){
+    global.adminLogado = false;
+    res.redirect('/admin');    
 }
 
 /**
