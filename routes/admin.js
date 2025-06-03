@@ -16,8 +16,8 @@ router.delete('/deletarAdministrador/:id', AdministradorController.deletarAdmini
 
 //Módulo de cliente
 router.get('/clientes', ClienteController.renderizarClientes);
-// router.put('/atualizarCliente/:id', upload.single('foto'), ClienteController.atualizarCliente);
+router.post('/novoCliente', upload.single('foto'), ClienteController.cadastrarCliente);
+router.put('/atualizarCliente/:id', upload.single('foto'), ClienteController.atualizarCliente);
 router.delete('/deletarCliente/:id', ClienteController.deletarCliente);
-// router.post('/novoCliente/:id', ClienteController.deletarCliente);
 
 module.exports = router;

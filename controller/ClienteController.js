@@ -14,7 +14,6 @@ exports.deletarCliente = async function (req, res, next) {
         }
 
     }catch(erro){
-        console.log(erro)
         return res.status(500).json({ sucesso: false, mensagem: "Erro inesperado ao deletar cliente!", erro: erro.message });
     }
 }
@@ -64,42 +63,35 @@ exports.renderizarLogin = async function (req, res, next){
 exports.renderizarClientes = async function (req, res, next){
     const service = new ClienteService();
     const clientes = await service.listarTodos();
-    
+
     res.render('admin/clientes', { titulo: "Clientes", clientes });
 }
 
 exports.atualizarCliente = async function (req, res, next){
-
-    const body = req.body;
-    const id = req.params.id;
-
     try{
-        const service = new ClienteService();
-        const {sucesso, cliente} = await service.atualizarCliente(body, id);
+        let dados = req.body;
+        const id = req.params.id;
 
-        if(!sucesso){
-            res.status(200).json({
-                sucesso: sucesso,
-                mensagem: "Falha ao atualizar dados!",
-                cliente: cliente 
-            });    
+        if (req.file) {
+            dados.foto = '/images/usuarios/' + req.file.filename; // caminho relativo público
+        } else {
+            dados.foto = '/images/assets/avatar.png';
         }
 
-        res.status(200).json({
-            sucesso: sucesso,
-            mensagem: "Dados atualizados com sucesso!",
-            cliente: cliente 
-        });
-        
+        console.log(dados);
 
-    }catch(error){
         const service = new ClienteService();
-        const cliente = await service.buscarClientePorId(id);
+    
+        const atualizado = await service.atualizarCliente(dados, id);
 
-        res.status(200).json({
-            sucesso: false,
-            mensagem: error,
-            cliente: cliente
-        });
+        if (atualizado) {
+            return res.status(200).json({sucesso: true, mensagem: "Administrador atualizado com sucesso!" });
+        } else {
+            return res.status(400).json({ sucesso: false, mensagem: "Não foi possível atualizar o administrador." });
+        }
+
+    }catch(erro){
+        console.log(erro);
+        return res.status(500).json({ sucesso: false, mensagem: "Erro inesperado ao atualzar registro", erro: erro.message});
     }
 }

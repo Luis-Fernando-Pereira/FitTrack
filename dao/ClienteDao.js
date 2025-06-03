@@ -3,6 +3,11 @@ const { ClienteModel } = require("../model/ClienteModel");
 
 class ClienteDao {
 
+    /**
+     * 
+     * @param {ClienteModel} cliente 
+     * @returns 
+     */
     async deletar(cliente){
         const conexao = await conectarBD();
         const sql = 'DELETE FROM cliente WHERE cod_cli = ?';
@@ -54,24 +59,11 @@ class ClienteDao {
      */
     async atualizar(cliente){
         const conexao = await conectarBD();
-        const sql = ```
-            update cliente 
-                set nome_cli = ?,
-                email_cli = ?,
-                senha_cli = ?,
-                idade_cli = ?,
-                peso_cli = ?,
-                sexo_cli = ?,
-                foto_cli = ? 
-            where cod_cli = ?;```;
+        const sql = 'update cliente set nome_cli = ?,email_cli = ?,senha_cli = ?,idade_cli = ?,peso_cli = ?,sexo_cli = ?,foto_cli = ? where cod_cli = ?;';
 
         const [ resultado ] = await conexao.query(sql, cliente.toUpdateArray());
 
-        if(resultado.afectedRows > 0){
-            return true;
-        }
-
-        return false;
+        return resultado.affectedRows > 0 ? true : false;
     }
 
     async buscarPorId(id){

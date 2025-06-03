@@ -11,7 +11,7 @@ class ClienteService {
             throw new Error('Cliente não encontrado!');
         }
 
-        const deletado = await dao.deletar(codigo);
+        const deletado = await dao.deletar(cliente);
 
         if(!deletado){
             return false;
@@ -60,29 +60,32 @@ class ClienteService {
         return clientes;
     }
 
-    async atualizarCliente(reqBody, id){
-        if(!reqBody || !id){
-            throw new Error("Dados obrigatórios devem estar preenchidos!");
+    async atualizarCliente(dados, id){
+        const cliente = new ClienteModel(
+            id,
+            dados.nome,
+            dados.email,
+            dados.senha,
+            dados.idade,
+            dados.sexo,
+            dados.peso,
+            dados.foto
+        );
+
+        this.validarDadosParaAtualizar(cliente);
+
+        const dao = new ClienteDao();
+        
+        const [dadosAntigos] = await ClienteModel.fromDatabase(await dao.buscarPorId(cliente.codigo));
+        const atualizado = await dao.atualizar(cliente);
+        
+        if(!atualizado){
+            FuncoesUtil.removerFoto(adminModel.foto);
+        } else {
+            FuncoesUtil.removerFoto(dadosAntigos.foto_admin)
         }
 
-        const cliente = new ClienteModel({
-            codigo: id, 
-            nome: reqBody.nome,
-            email: reqBody.email,
-            senha: reqBody.senha,
-            foto: reqBody.foto,
-            peso: reqBody.peso,
-            sexo: reqBody.sexo
-        });
-
-        this.validaDadosCadastrais(cliente);
-
-        const sucesso = await this.dao.atualizar(cliente);
-
-        return {
-            sucesso: sucesso,
-            cliente: await this.dao.buscarPorId(id)
-        }
+        return atualizado;
     }
 
     /**
@@ -109,6 +112,39 @@ class ClienteService {
         if(!FuncoesUtil.emailValido(cliente.email)){
             throw new Error("Email inválido!");
         }
+    }
+
+    /**
+     * 
+     * @param {ClienteModel} cliente 
+     */
+    validarDadosParaAtualizar(cliente){
+        if(this.emailVazio(cliente.email)){
+            throw new Error("Email deve estar preenchido!");
+        }
+
+        if(this.senhaVazia(cliente.senha)){
+            throw new Error("Senha deve estar preenchida!");
+        }
+        
+        if(this.nomeVazio(cliente.nome)){
+            throw new Error("Nome deve estar preenchido!");
+        }
+
+        if(!FuncoesUtil.emailValido(cliente.email)){
+            throw new Error("Email inválido!");
+        }
+
+        if(this.senhaInvalida(cliente.senha)){
+            throw new Error("Senha ultrapassou máximo de caracteres!");
+        }
+    }
+
+    senhaInvalida(senha){
+        if(senha.length > 18){
+            return true
+        }
+        return false;
     }
 
     emailVazio(email){

@@ -122,26 +122,42 @@
                     </div>            
                     
                     <form id="updateForm<%= cliente.codigo %>" action="/admin/atualizarCliente/<%= cliente.codigo %>?_method=PUT" method="POST" enctype="multipart/form-data">
-                        <!-- <input type="hidden" name="_method" value="PUT"> -->
-                        
                         <div class="flex flex-col items-center justify-center p-4 bg-white rounded-b-xl">
-                        
                             <div class="w-full m-2">
-                                <input type="text" name="nome" autocomplete="username" id="nome<%= cliente.codigo %>" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" value="<%= cliente.nome %>">
+                                <label for="nome" class="text-blue-600 font-bold">Nome</label>
+                                <input type="text" value="<%= cliente.nome %>" autocomplete="name" name="nome" id="nome<%= cliente.codigo %>" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="Nome" required>
                             </div>
                             <div class="w-full m-2">
-                                <input type="email" name="email" autocomplete="username" id="email<%= cliente.codigo %>" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" value="<%= cliente.email %>">
+                                <label for="email" class="text-blue-600 font-bold">Email</label>
+                                <input type="email" value="<%= cliente.email %>" autocomplete="username" name="email" id="email<%= cliente.codigo %>" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="Email" required>
                             </div>
                             <div class="w-full m-2">
-                                <input type="password" name="senha" autocomplete="current-password" id="senha<%= cliente.codigo %>" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" value="<%= cliente.senha %>">
+                                <label for="senha" class="text-blue-600 font-bold">Senha</label>
+                                <input type="password" value="<%= cliente.senha %>" name="senha" id="senha<%= cliente.codigo %>" autocomplete="new-password" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="Senha" required>
                             </div>
+                            <div class="w-full m-2">
+                                <label for="idade" class="text-blue-600 font-bold">Idade</label>
+                                <input type="number" value="<%= cliente.idade %>" name="idade" id="idade<%= cliente.codigo %>" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="idade" required>
+                            </div>
+                            <div class="w-full m-2">
+                                <label for="peso" class="text-blue-600 font-bold">Peso</label>
+                                <input type="number" value="<%= cliente.peso %>" name="peso" id="peso<%= cliente.codigo %>" class="pl-1 w-full h-10 border border-blue-600 hover:border-blue-800 rounded focus:border-blue-800 focus:border-2 focus:outline-none" placeholder="Em Kg" required>
+                            </div>
+                            <div class="w-full m-2">
+                                <label for="sexo" class="text-blue-600 font-bold mr-2">Sexo</label>
+                                <select id="sexo<%= cliente.codigo %>"name="sexo" class="p-2 hover:bg-gray-100 border-2 border-blue-500 text-blue-600 focus:rounded focus:border-blue-600 rounded" required>
 
+                                    <option value="M" <%= cliente.sexo === 'M' ? 'selected' : '' %>>Masculino</option>
+                                    <option value="F" <%= cliente.sexo === 'F' ? 'selected' : '' %>>Feminino</option>
+                                    <option value="O" <%= cliente.sexo === 'O' ? 'selected' : '' %>>Outro</option>
+                                </select>
+                            </div>
                             
                             <div class="m-2 w-full flex flex-col">                                                            
                                 <label for="foto<%= cliente.codigo %>" class="px-4 py-2 w-50 bg-blue-600 text-white text-center rounded cursor-pointer hover:bg-blue-700">
                                     Selecionar imagem
                                 </label>
-                                <input type="file" id="foto<%= cliente.codigo %>" name="foto" class="hidden" onchange="previewImage(event, 'preview<%= cliente.codigo %>')">
+                                <input type="file" id="foto<%= cliente.codigo %>" name="foto" class="hidden" onchange="previewImage(event,'preview<%= cliente.codigo %>')">
 
                                 <!-- Imagem clicável -->
                                 <div class="flex justify-center mt-2">
@@ -151,9 +167,9 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-end">
+                            <div class="flex">
                                 <button type="submit" class="px-4 py-2 mr-2 bg-green-500 text-white font-bold rounded hover:bg-green-600">
-                                    Salvar
+                                    Cadastrar
                                 </button>
                                 <button type="button" onclick="closeModal('updateModal<%= cliente.codigo %>')" class="px-4 py-2 font-bold bg-red-500 text-white rounded hover:bg-red-600">
                                     Fechar
@@ -270,22 +286,14 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                respostaFormularioComToast();
                 addFormSubmitListener('postForm', 'postModal');
+                                
                 const clientes = <%- JSON.stringify(clientes) %>;
-
                 clientes.forEach(cliente => {
                     addFormSubmitListener('updateForm'+cliente.codigo, 'updateModal'+cliente.codigo);
                     addFormSubmitListener('deleteForm'+cliente.codigo, 'deleteModal'+cliente.codigo);
                 })
-                // Exibe toast se houver mensagem no localStorage
-                const msg = localStorage.getItem('toastMessage');
-                const type = localStorage.getItem('toastType');
-
-                if (msg && type) {
-                    toastr[type](msg);
-                    localStorage.removeItem('toastMessage');
-                    localStorage.removeItem('toastType');
-                }
             });
         </script>
     </body>

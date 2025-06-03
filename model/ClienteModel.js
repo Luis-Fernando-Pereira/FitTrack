@@ -73,9 +73,9 @@ class ClienteModel {
                     result.nome_cli,
                     result.email_cli,
                     result.senha_cli,
-                    result.peso_cli,
                     result.idade_cli,
                     result.sexo_cli,
+                    result.peso_cli,
                     result.foto_cli
                 )
             )

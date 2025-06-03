@@ -92,7 +92,19 @@ async function addFilelessFormListener(formId) {
     });
 }
 
-function respondeEnvioDeFormulario(){
+function respostaFormularioComToast(){
+    // Exibe toast se houver mensagem no localStorage
+    const msg = localStorage.getItem('toastMessage');
+    const type = localStorage.getItem('toastType');
+
+    if (msg && type) {
+        toastr[type](msg);
+        localStorage.removeItem('toastMessage');
+        localStorage.removeItem('toastType');
+    }
+}
+
+function respostaFormularioComDiv(){
     const mensagem = localStorage.getItem('mensagem');
     const sucesso = localStorage.getItem('sucesso');
     
