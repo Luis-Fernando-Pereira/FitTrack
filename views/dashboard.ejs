@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Dashboard</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-blue-900 p-0 h-screen w-full">
+  <div class="bg-orange-600 w-full p-0 m-0 h-[5%] relative">
+    <div class="flex w-full h-full items-center justify-end relative">
+      <div id="menuUsuario" class="flex items-center cursor-pointer relative">
+        <!-- Seta -->
+        <div class="mr-4 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white transition-transform duration-300" id="arrow"></div>
+
+        <!-- Nome -->
+        <h1 class="text-white font-bold text-lg mr-2"><%= cliente.nome %></h1>
+
+        <!-- Avatar -->
+        <a href="/perfil">
+          <img class="p-1 m-2 rounded-full bg-white w-[32px] h-[32px]" src="<%= cliente.foto %>" alt="Perfil">
+        </a>
+
+        <!-- Dropdown menu -->
+        <div id="dropdownMenu" class="absolute right-0 top-full mt-2 w-48 bg-white rounded shadow-lg hidden z-50">
+          <a href="/perfil" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Perfil</a>
+          <a href="/historico" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Histórico de Treinos</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const menuUsuario = document.getElementById('menuUsuario');
+    const dropdown = document.getElementById('dropdownMenu');
+    const arrow = document.getElementById('arrow');
+
+    menuUsuario.addEventListener('click', () => {
+      dropdown.classList.toggle('hidden');
+      arrow.classList.toggle('rotate-180'); // Gira a seta
+    });
+
+    // (Opcional) Fecha ao clicar fora
+    document.addEventListener('click', function (event) {
+      if (!menuUsuario.contains(event.target)) {
+        dropdown.classList.add('hidden');
+        arrow.classList.remove('rotate-180');
+      }
+    });
+  </script>
+</body>
+</html>

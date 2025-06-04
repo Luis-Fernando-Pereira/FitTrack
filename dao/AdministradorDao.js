@@ -55,7 +55,7 @@ class AdministradorDao {
         const sql = 'select * from administrador where cod_admin = ?;';
         const [dadosEncontrados] = await conexao.query(sql, [id]);
         
-        return dadosEncontrados.length > 0 ? dadosEncontrados[0] : false;
+        return dadosEncontrados.length > 0 ? dadosEncontrados : false;
     }
     
     /**

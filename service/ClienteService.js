@@ -3,6 +3,31 @@ const { ClienteModel } = require('../model/ClienteModel');
 const { FuncoesUtil } = require('../util/FuncoesUtil');
 
 class ClienteService {
+    /**
+     * Função que valida credenciais de administrador
+     * @param {string} email 
+     * @param {string} senha 
+     * @returns 
+     */
+    async autenticar(email, senha){        
+        this.validaDadosLogin(email, senha);
+
+        const dao = new ClienteDao();  
+        const resultado = await dao.buscarPorEmail(email);  
+
+        if(!resultado || resultado.length < 1){
+            return false;
+        }
+
+        const [ cliente ] = await ClienteModel.fromDatabase(resultado);
+
+        if(!this.dadosCorrespondem(cliente, senha)){
+            return false;
+        }
+
+        return cliente;
+    }
+
     async deletarCliente(codigo){
         const dao = new ClienteDao();
         const [ cliente ] = ClienteModel.fromDatabase(await dao.buscarPorId(codigo)); 
@@ -140,6 +165,41 @@ class ClienteService {
         }
     }
 
+    validaDadosLogin(email, senha){
+        if(this.emailVazio(email)){
+            throw new Error("Email deve estar preenchido!");
+        }
+        
+        if(this.emailInvalido(email)){
+            throw new Error("Email inválido!");
+        }
+        
+        if(this.senhaVazia(senha)){
+            throw new Error("Senha deve estar preenchida!");
+        }
+    }
+    
+    emailInvalido(email){
+        if(!FuncoesUtil.emailValido(email)){
+            return true;
+        }
+        return false;
+    }
+
+    emailVazio(email){
+        if(email || email !== ""){
+            return false;
+        }
+        return true;
+    }
+
+    senhaVazia(senha){
+        if(senha || senha !== ""){
+            return false;
+        }
+        return true;
+    }
+
     senhaInvalida(senha){
         if(senha.length > 18){
             return true
@@ -177,6 +237,24 @@ class ClienteService {
         }
 
         return false;
+    }
+
+    /**
+     * 
+     * @param {ClienteModel} cliente 
+     * @param {string} email 
+     * @param {string} senha 
+     */
+    dadosCorrespondem(cliente,senha){
+        if(!cliente){
+            return false;
+        }
+
+        if(senha !== cliente.senha){
+            return false;
+        }
+
+        return true;
     }
 }
 

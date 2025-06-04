@@ -1,3 +1,4 @@
+const { ClienteDao } = require('../dao/ClienteDao');
 const { ClienteModel } = require('../model/ClienteModel');
 const { ClienteService } = require('../service/ClienteService'); 
 
@@ -44,6 +45,19 @@ exports.cadastrarCliente = async function (req, res, next){
     }
 }
 
+exports.renderizarDashboard = async function (req, res, next){    
+    const dao = new ClienteDao();
+    const resultado = await dao.buscarPorEmail(global.emailCliente);
+    const [ cliente ] = ClienteModel.fromDatabase(resultado);
+
+    res.render('dashboard', { 
+        titulo: "Cadastro",
+        sucesso: null,
+        message: null,
+        cliente
+    });
+}
+
 exports.renderizarCadastroCliente = async function (req, res, next){    
     res.render('novo-cliente', { 
         titulo: "Cadastro",
@@ -65,6 +79,36 @@ exports.renderizarClientes = async function (req, res, next){
     const clientes = await service.listarTodos();
 
     res.render('admin/clientes', { titulo: "Clientes", clientes });
+}
+
+exports.login = async function (req, res, next) {
+    const {email, senha} = req.body;
+
+    try{
+        const service = new ClienteService(); 
+        const cliente = await service.autenticar(email, senha);
+
+        if(!cliente){
+            return res.status(300).json({
+                sucesso: false,
+                mensagem: "Email ou senha inválidos",
+            })
+        }
+
+        global.emailCliente = cliente.email;
+
+        res.send({
+            sucesso: true,
+            rota: '/dashboard'
+        }).status(200);
+    }catch(error){
+        console.log(error);
+
+        return res.status(400).json({
+            sucesso: false,
+            mensagem: error.message
+        });
+    } 
 }
 
 exports.atualizarCliente = async function (req, res, next){

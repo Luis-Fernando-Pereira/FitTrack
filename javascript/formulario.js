@@ -81,7 +81,7 @@ async function addFilelessFormListener(formId) {
 
             const { sucesso, mensagem, rota } = responseData;
 
-            localStorage.setItem('redirecionar', rota)
+            localStorage.setItem('rota', rota)
             localStorage.setItem('mensagem', mensagem);
             localStorage.setItem('sucesso', sucesso);
 
@@ -98,6 +98,11 @@ function respostaFormularioComToast(){
     const type = localStorage.getItem('toastType');
 
     if (msg && type) {
+        const rota = localStorage.getItem('rota');
+        if(rota){
+            window.location.href = rota;
+        }
+        
         toastr[type](msg);
         localStorage.removeItem('toastMessage');
         localStorage.removeItem('toastType');
@@ -117,6 +122,7 @@ function respostaFormularioComDiv(){
 
         if(sucesso === 'true'){
             const rota = localStorage.getItem('rota');
+            
             if(rota){
                 window.location.href = rota;
             }
@@ -129,6 +135,7 @@ function respostaFormularioComDiv(){
         }
     }
 
+    localStorage.removeItem('rota');
     localStorage.removeItem('mensagem');
     localStorage.removeItem('sucesso');
 }

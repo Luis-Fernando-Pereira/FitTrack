@@ -19,7 +19,7 @@ class AdministradorService {
             return false;
         }
 
-        return true;
+        return admin;
     }
 
     async criarNovoAdministrador(dados){

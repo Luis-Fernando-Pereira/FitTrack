@@ -31,14 +31,14 @@ class ClienteDao {
     /**
      * Função que consulta no banco de dados um cliente por email
      * @param {string} email 
-     * @returns {[AdministradorModel]} lista de AdminstradorModel
+     * @returns {Array<Object>|false} lista de dados de admin
      */
     async buscarPorEmail(email){
         const conexao = await conectarBD();
         const sql = "SELECT * FROM cliente WHERE email_cli = ?";
         const [ resultado ] = await conexao.query(sql, [email]);
 
-        return resultado.length > 0 ? await ClienteModel.fromDatabase(resultado)[0] : false;
+        return resultado.length > 0 ? resultado : false;
     }
 
     /**

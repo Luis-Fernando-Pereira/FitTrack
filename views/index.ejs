@@ -26,7 +26,7 @@
     <div class="relative z-10 w-full max-w-md mx-auto p-8 bg-white rounded-2xl justify-items-center">
       <img src="images/assets/Logo.png" alt="">
       
-      <form action="/login" class="space-y-6 w-full justify-items-center" method="POST">
+      <form id="login" action="/login" class="space-y-6 w-full justify-items-center" method="POST">
 
         <div class="w-full">
           <label class="block text-sm font-medium text-orange-600" for="email">
@@ -34,7 +34,7 @@
           </label>
           <input
             class="w-full p-3 rounded-xl bg-white-700 border border-orange-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-            id="email" name="email" required="" type="email" />
+            id="email" name="email" autocomplete="email" required type="email" />
         </div>
 
         <div class="w-full">
@@ -43,7 +43,7 @@
           </label>
           <input
             class="w-full p-3 rounded-xl bg-white-700 border border-orange-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-            id="senha" name="senha" required="" type="password" />
+            id="senha" name="senha" autocomplete="current-password" required="" type="password" />
         </div>
 
 
@@ -65,6 +65,16 @@
         </div>
         
       </form>
+
+      <div id="resposta">
+          <p id="mensagem_resposta"></p>
+      </div>  
     </div>
+
+    <script src="/javascript/formulario.js"></script>
+    <script>
+        addFilelessFormListener('login');
+        respostaFormularioComDiv();
+    </script>
   </body>
 </html>

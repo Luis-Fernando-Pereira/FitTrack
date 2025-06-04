@@ -47,7 +47,7 @@ exports.autenticar = async function(req, res, next){
             })
         }
 
-        global.adminLogado = true;
+        global.emailAdmin = adminAutenticado.email;
         
         res.status(200).json({
             sucesso: true,

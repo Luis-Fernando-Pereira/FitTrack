@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../middleware/upload');
-const { adminLogado } = require('../middleware/valida_admin');
+const { adminLogado } = require('../middleware/usuario_logado');
 
 const AdministradorController = require('../controller/AdministradorController');
 const ClienteController = require('../controller/ClienteController');
