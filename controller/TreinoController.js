@@ -4,7 +4,6 @@ exports.listarTreinos = async function (req, res, next) {
     try {
         const service = new TreinoService();
         const treinos = await service.listarTreinos();
-        console.log(treinos);
         res.json(treinos);
     } catch (erro) {
         res.status(500).json({ mensagem: erro.message });

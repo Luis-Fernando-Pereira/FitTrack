@@ -64,7 +64,11 @@ class TreinoService {
         this.validaResultadoDao(resultado);
         const { lista } = resultado;
         
-        return this.toArrayOfTreinoModel(lista);
+        const res = this.toArrayOfTreinoModel(lista); 
+
+        console.log(res);
+
+        return res;
     }
 
     /**
@@ -132,14 +136,18 @@ class TreinoService {
      */
     toArrayOfTreinoModel(treinos){
         let listaDeTreinos = [];
+
         treinos.forEach( treino => listaDeTreinos.push(
             new TreinoModel(
-                treino.codigo,
-                treino.descricao,
-                treino.titulo,
+                treino.cod_tre,
+                treino.descricao_tre,
+                treino.titulo_tre,
+                treino.capa_tre,
                 treino.exercicios
             )
         ))
+
+        return listaDeTreinos;
     }
 
     validaResultadoDao(resultado){

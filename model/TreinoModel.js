@@ -6,13 +6,15 @@ class TreinoModel {
      * @param {Number} codigo código identificador de treino
      * @param {string} descricao Breve descrição do treino
      * @param {string} titulo titulo do treino
+     * @param {string} capa caminho onde imagem de capa do treino foi salva
      * @param {Array<ExercicioModel>} exercicios array de ExercicioModel
      */
-    constructor(codigo, descricao, titulo, exercicios){
+    constructor(codigo, descricao, titulo, capa, exercicios){
         this.codigo = codigo;
         this.descricao = descricao;
         this.titulo = titulo;
-        this.exercicios = exercicios;//alterar depois para testes
+        this.capa = capa;
+        //this.exercicios = exercicios;//alterar depois para testes
     }
 
     /**
@@ -35,7 +37,8 @@ class TreinoModel {
     toInsertArray(){
         return [
             this.descricao,
-            this.titulo
+            this.titulo,
+            this.capa
         ];
     }
 
@@ -49,7 +52,8 @@ class TreinoModel {
         return [
             this.descricao,
             this.titulo,
-            this.codigo
+            this.codigo,
+            this.capa
         ];
     }
 
