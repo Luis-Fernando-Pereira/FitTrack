@@ -31,10 +31,23 @@
           <a href="/historico" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Histórico de Treinos</a>
         </div>
       </div>
+
     </div>
   </div>
-
+  <div class="bg-white p-12">
+    <p id="resultado"></p>
+  </div>
+  
+  <script src="/javascript/treino.js"></script>
   <script>
+    const treinos = carregarTreinos();
+
+    treinos.then(dados => {
+      console.log(dados);
+    }).catch(erro => {
+      console.error('Erro ao carregar:', erro);
+    });
+
     const menuUsuario = document.getElementById('menuUsuario');
     const dropdown = document.getElementById('dropdownMenu');
     const arrow = document.getElementById('arrow');

@@ -12,7 +12,7 @@ class TreinoModel {
         this.codigo = codigo;
         this.descricao = descricao;
         this.titulo = titulo;
-        this.exercicios = exercicios;
+        this.exercicios = exercicios;//alterar depois para testes
     }
 
     /**

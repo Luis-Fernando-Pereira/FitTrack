@@ -28,6 +28,13 @@ class ClienteService {
         return cliente;
     }
 
+    async buscarPorEmail(email){
+        const dao = new ClienteDao();
+        const [ cliente ] = ClienteModel.fromDatabase(await dao.buscarPorEmail(email));
+
+        return cliente;
+    }
+
     async deletarCliente(codigo){
         const dao = new ClienteDao();
         const [ cliente ] = ClienteModel.fromDatabase(await dao.buscarPorId(codigo)); 

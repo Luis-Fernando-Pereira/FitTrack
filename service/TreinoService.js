@@ -63,7 +63,7 @@ class TreinoService {
 
         this.validaResultadoDao(resultado);
         const { lista } = resultado;
-
+        
         return this.toArrayOfTreinoModel(lista);
     }
 

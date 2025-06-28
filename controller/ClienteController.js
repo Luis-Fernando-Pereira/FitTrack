@@ -46,11 +46,10 @@ exports.cadastrarCliente = async function (req, res, next){
 }
 
 exports.renderizarDashboard = async function (req, res, next){    
-    const dao = new ClienteDao();
-    const resultado = await dao.buscarPorEmail(global.emailCliente);
-    const [ cliente ] = ClienteModel.fromDatabase(resultado);
-
-    res.render('dashboard', { 
+    const clienteService = new ClienteService();
+    const cliente = await clienteService.buscarPorEmail(global.emailCliente);
+    
+    res.render('dashboard', {
         titulo: "Cadastro",
         sucesso: null,
         message: null,
