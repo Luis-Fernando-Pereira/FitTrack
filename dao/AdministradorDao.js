@@ -55,6 +55,8 @@ class AdministradorDao {
         const sql = 'select * from administrador where cod_admin = ?;';
         const [dadosEncontrados] = await conexao.query(sql, [id]);
         
+        conexao.end();
+
         return dadosEncontrados.length > 0 ? dadosEncontrados : false;
     }
     
@@ -73,6 +75,7 @@ class AdministradorDao {
             admin.foto,
             admin.codigo
         ]);
+        conexao.end();
 
         if(resultado.affectedRows > 0){
             return true;
@@ -91,6 +94,7 @@ class AdministradorDao {
         const sql = 'DELETE FROM administrador WHERE cod_admin = ?;';
         
         const [resultado] = await conexao.query(sql, [codigo]);
+        conexao.end();
 
         return resultado.affectedRows > 0 ? true : false;
     }

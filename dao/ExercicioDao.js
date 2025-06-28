@@ -6,6 +6,7 @@ class ExercicioDao {
         const conexao = await conectarBD();
         const [dadosEncontrados] = await conexao.query('select cod_exe, titulo_exe, descricao_exe, duracao_exe, video_exe from exercicio;');
 
+        conexao.end();
         return dadosEncontrados.map(row => new ExercicioModel({
             codigo: row.cod_exe,
             titulo: row.titulo_exe,
@@ -25,6 +26,7 @@ class ExercicioDao {
                 exercicioModel.video
             ]
         );
+        conexao.end();
 
         return resultado.insertId;
     }
@@ -33,6 +35,7 @@ class ExercicioDao {
         const conexao = await conectarBD();
         const [dadosEncontrados] = await conexao.query('select cod_exe, titulo_exe, descricao_exe, duracao_exe, video_exe from exercicio where titulo_exe = ?;', [titulo]);
 
+        conexao.end();
         return dadosEncontrados.length > 0 ? new ExercicioModel({
             codigo: dadosEncontrados[0].cod_exe,
             titulo: dadosEncontrados[0].titulo_exe,

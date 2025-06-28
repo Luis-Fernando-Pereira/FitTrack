@@ -8,6 +8,8 @@ class AvaliacaoDao {
             'insert into avaliacao (cliente, treino, nota) values (?, ?, ?) on duplicate key update nota = ?',
             [avaliacaoModel.cliente, avaliacaoModel.treino, avaliacaoModel.nota, avaliacaoModel.nota]
         );
+
+        conexao.end();
         return resultado;
     }
 
@@ -17,6 +19,8 @@ class AvaliacaoDao {
             'select cliente, treino, nota from avaliacao where treino = ?',
             [treino]
         );
+        conexao.end();
+
         return dadosEncontrados.map(row => new AvaliacaoModel(row));
     }
 
@@ -26,6 +30,7 @@ class AvaliacaoDao {
             'select cliente, treino, nota from avaliacao where cliente = ? and treino = ?',
             [cliente, treino]
         );
+        conexao.end();
         return dadosEncontrados.length > 0 ? new AvaliacaoModel(dadosEncontrados[0]) : null;
     }
 
@@ -35,6 +40,7 @@ class AvaliacaoDao {
             'select avg(nota) as media from avaliacao where treino = ?',
             [treino]
         );
+        conexao.end();
         return dadosEncontrados[0].media;
     }
 }

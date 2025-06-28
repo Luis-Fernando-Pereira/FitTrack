@@ -8,6 +8,7 @@ class CategoriaExercicioDao {
             'insert into categoria_exercicio (exercicio, categoria) values (?, ?)',
             [categoriaExercicioModel.exercicio, categoriaExercicioModel.categoria]
         );
+        conexao.end();
     }
 
     async remover(categoriaExercicioModel) {
@@ -16,6 +17,7 @@ class CategoriaExercicioDao {
             'delete from categoria_exercicio where exercicio = ? and categoria = ?',
             [categoriaExercicioModel.exercicio, categoriaExercicioModel.categoria]
         );
+        conexao.end();
     }
 
     async listarExerciciosPorCategoria(categoria) {
@@ -24,6 +26,7 @@ class CategoriaExercicioDao {
             'select exercicio from categoria_exercicio where categoria = ?',
             [categoria]
         );
+        conexao.end();
         return dadosEncontrados.map(row => row.exercicio);
     }
 
@@ -33,6 +36,7 @@ class CategoriaExercicioDao {
             'select categoria from categoria_exercicio where exercicio = ?',
             [exercicio]
         );
+        conexao.end();
         return dadosEncontrados.map(row => row.categoria);
     }
 }

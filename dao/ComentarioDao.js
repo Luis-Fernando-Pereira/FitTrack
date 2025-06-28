@@ -8,6 +8,7 @@ class ComentarioDao {
             'insert into comentario (cliente, treino, texto_com, dhcadastro_com) values (?, ?, ?, ?)',
             [comentarioModel.cliente, comentarioModel.treino, comentarioModel.texto, comentarioModel.dataHora]
         );
+        conexao.end();
         return resultado.insertId;
     }
 
@@ -17,6 +18,7 @@ class ComentarioDao {
             'select cod_com, cliente, treino, texto_com, dhcadastro_com from comentario where treino = ? order by dhcadastro_com desc',
             [idTreino]
         );
+        conexao.end();
         return dadosEncontrados.map(row => new ComentarioModel({
             codigo: row.cod_com,
             cliente: row.cliente,

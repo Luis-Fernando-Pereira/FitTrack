@@ -6,6 +6,7 @@ class CategoriaDao {
         const conexao = await conectarBD();
         const [dadosEncontrados] = await conexao.query('select cod_cat, titulo_cat from categoria;');
 
+        conexao.end();
         return dadosEncontrados.map(row => new CategoriaModel({
             codigo: row.cod_cat,
             titulo: row.titulo_cat
@@ -16,6 +17,7 @@ class CategoriaDao {
         const conexao = await conectarBD();
         const [resultado] = await conexao.query('insert into categoria (titulo_cat) values (?)', [categoriaModel.titulo]);
 
+        conexao.end();
         return resultado.insertId;
     }
 
@@ -23,6 +25,7 @@ class CategoriaDao {
         const conexao = await conectarBD();
         const [dadosEncontrados] = await conexao.query('select cod_cat, titulo_cat from categoria where titulo_cat = ?;', [titulo]);
 
+        conexao.end();
         return dadosEncontrados.length > 0 ? new CategoriaModel({
             codigo: dadosEncontrados[0].cod_cat,
             titulo: dadosEncontrados[0].titulo_cat
@@ -32,6 +35,7 @@ class CategoriaDao {
     async editarCategoria(novoTitulo, codigo) {
         const conexao = await conectarBD();
         const [resultado] = await conexao.query('update categoria set titulo_cat = ? where cod_cat = ?', [novoTitulo, codigo]);
+        conexao.end();
         return resultado.affectedRows > 0;
     }
 }

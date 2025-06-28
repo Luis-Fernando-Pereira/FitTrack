@@ -12,6 +12,7 @@ class ClienteDao {
         const conexao = await conectarBD();
         const sql = 'DELETE FROM cliente WHERE cod_cli = ?';
         const [ resultado ] = await conexao.query(sql, [cliente.codigo]);
+        conexao.end();
 
         return resultado.affectedRows > 0 ? true : false;
     }
@@ -24,6 +25,7 @@ class ClienteDao {
         const conexao = await conectarBD();
         const sql = 'insert into cliente(nome_cli, email_cli, senha_cli, idade_cli, peso_cli, sexo_cli, foto_cli) values (?,?,?,?,?,?,?);';
         const [ resultado ] = await conexao.query(sql, cliente.toInsertArray());
+        conexao.end();
 
         return resultado.insertId > 0 ? resultado.insertId : false;
     }
@@ -37,6 +39,7 @@ class ClienteDao {
         const conexao = await conectarBD();
         const sql = "SELECT * FROM cliente WHERE email_cli = ?";
         const [ resultado ] = await conexao.query(sql, [email]);
+        conexao.end();
 
         return resultado.length > 0 ? resultado : false;
     }
@@ -49,6 +52,7 @@ class ClienteDao {
         const conexao = await conectarBD();
         const sql = 'select * from cliente;';
         const [ resultado ] = await conexao.query(sql);
+        conexao.end();
     
         return resultado;
     }
@@ -62,6 +66,7 @@ class ClienteDao {
         const sql = 'update cliente set nome_cli = ?,email_cli = ?,senha_cli = ?,idade_cli = ?,peso_cli = ?,sexo_cli = ?,foto_cli = ? where cod_cli = ?;';
 
         const [ resultado ] = await conexao.query(sql, cliente.toUpdateArray());
+        conexao.end();
 
         return resultado.affectedRows > 0 ? true : false;
     }
@@ -70,6 +75,7 @@ class ClienteDao {
         const sql = 'SELECT * FROM cliente WHERE cod_cli = ?';
         const conexao = await conectarBD();
         const [ resultado ] = await conexao.query(sql, [id]);
+        conexao.end();
 
         return resultado;
     }
