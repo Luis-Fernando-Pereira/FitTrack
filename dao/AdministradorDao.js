@@ -8,17 +8,22 @@ class AdministradorDao {
      */
     async inserir(admin){
         const conexao = await conectarBD();
+        try{
+            const sql = 'insert into administrador(email_admin, nome_admin, foto_admin, senha_admin) values (?,?,?,?);';
+    
+            const [resultado] = await conexao.query(sql, [
+                admin.email,
+                admin.nome,
+                admin.foto,
+                admin.senha
+            ]);
+    
+            return resultado.insertId ? resultado.insertId : false;
 
-        const sql = 'insert into administrador(email_admin, nome_admin, foto_admin, senha_admin) values (?,?,?,?);';
+        } finally {
+            conexao.end();
+        }
 
-        const [resultado] = await conexao.query(sql, [
-            admin.email,
-            admin.nome,
-            admin.foto,
-            admin.senha
-        ]);
-
-        return resultado.insertId ? resultado.insertId : false;
     }
 
     /**
@@ -28,10 +33,14 @@ class AdministradorDao {
      */
     async consultarPorEmail(email){
         const conexao = await conectarBD();
-        const sql = "SELECT * FROM administrador WHERE email_admin = ?";
-        const [ resultado ] = await conexao.query(sql, [email]);
-        
-        return resultado;
+        try{
+            const sql = "SELECT * FROM administrador WHERE email_admin = ?";
+            const [ resultado ] = await conexao.query(sql, [email]);
+            return resultado;
+
+        } finally {
+            conexao.end();
+        }
     }
 
     /**
@@ -40,10 +49,15 @@ class AdministradorDao {
      */
     async listarTodos() {
         const conexao = await conectarBD();
-        const sql = 'select * from administrador;';
-        const [dadosEncontrados] = await conexao.query(sql);
-        
-        return dadosEncontrados;
+        try{
+            const sql = 'select * from administrador;';
+            const [dadosEncontrados] = await conexao.query(sql);
+            
+            return dadosEncontrados;
+
+        } finally {
+            conexao.end();
+        }
     }
 
     /**
@@ -52,10 +66,15 @@ class AdministradorDao {
      */
     async buscarPorId(id) {
         const conexao = await conectarBD();
-        const sql = 'select * from administrador where cod_admin = ?;';
-        const [dadosEncontrados] = await conexao.query(sql, [id]);
-        
-        return dadosEncontrados.length > 0 ? dadosEncontrados : false;
+        try{
+            const sql = 'select * from administrador where cod_admin = ?;';
+            const [dadosEncontrados] = await conexao.query(sql, [id]);
+            return dadosEncontrados.length > 0 ? dadosEncontrados : false;
+
+        } finally {
+            conexao.end();
+            
+        }
     }
     
     /**
@@ -64,21 +83,25 @@ class AdministradorDao {
      */
     async atualizar(admin){
         const conexao = await conectarBD();
-        const sql = 'UPDATE administrador SET nome_admin = ?, email_admin = ?, senha_admin = ?, foto_admin = ? WHERE cod_admin = ?;';
+        try{
+            
+            const sql = 'UPDATE administrador SET nome_admin = ?, email_admin = ?, senha_admin = ?, foto_admin = ? WHERE cod_admin = ?;';
+            
+            const [resultado] = await conexao.query(sql, [
+                admin.nome,
+                admin.email,
+                admin.senha,
+                admin.foto,
+                admin.codigo
+            ]);
 
-        const [resultado] = await conexao.query(sql, [
-            admin.nome,
-            admin.email,
-            admin.senha,
-            admin.foto,
-            admin.codigo
-        ]);
-
-        if(resultado.affectedRows > 0){
-            return true;
+            return resultado.affectedRows > 0;
+    
+        } finally {
+            conexao.end();
+            
         }
 
-        return false;
     }
 
     /**
@@ -88,11 +111,15 @@ class AdministradorDao {
      */
     async deletar(codigo){
         const conexao = await conectarBD();
-        const sql = 'DELETE FROM administrador WHERE cod_admin = ?;';
-        
-        const [resultado] = await conexao.query(sql, [codigo]);
+        try{
+            const sql = 'DELETE FROM administrador WHERE cod_admin = ?;';
+            const [resultado] = await conexao.query(sql, [codigo]);
+            return resultado.affectedRows > 0 ? true : false;
 
-        return resultado.affectedRows > 0 ? true : false;
+        } finally {
+            conexao.end();
+            
+        }
     }
 }
 

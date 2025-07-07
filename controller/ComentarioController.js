@@ -1,14 +1,26 @@
 const { ComentarioService } = require('../service/ComentarioService');
+const { TreinoService } = require('../service/TreinoService');
+
+const comentarioService = new ComentarioService();
+const treinoService = new TreinoService();
 
 async function criarComentario(req, res, next) {
+    const treinoId = req.params.treino;
+    const treino = await treinoService.buscarPorId(treinoId);
+
     try {
-        const cliente = req.usuario?.codigo;
-        const { treino, texto } = req.body;
-        const service = new ComentarioService();
-        const comentario = await service.criarComentario(cliente, treino, texto);
-        res.status(201).json(comentario);
+        const { texto } = req.body;        
+        
+        if(!texto || texto === ""){
+            throw Error("Texto do comentário não pode estar vazio!");
+        }
+
+        await comentarioService.criarComentario(treino, texto);
     } catch (erro) {
-        res.status(400).json({ mensagem: erro.message });
+        console.log(erro.message);
+        
+    } finally {
+        res.redirect('/treino/'+ treino.codigo);
     }
 }
 

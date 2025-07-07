@@ -1,10 +1,31 @@
+const CategoriaModel = require('./CategoriaModel');
+
 class ExercicioModel {
-    constructor({ codigo, titulo, descricao, tempoEstimado, video }) {
+    
+    /**
+     * 
+     * @param {*} codigo 
+     * @param {*} titulo 
+     * @param {*} descricao 
+     * @param {*} tempoEstimado 
+     * @param {*} video 
+     * @param {Array<CategoriaModel>} categorias 
+     */
+    constructor( codigo, titulo, descricao, tempoEstimado, video, categorias) {
         this.codigo = codigo;
         this.titulo = titulo;
         this.descricao = descricao;
         this.tempoEstimado = tempoEstimado;
         this.video = video;
+        this.categorias = categorias;
+    }
+
+    /**
+     * 
+     * @param {CategoriaModel} categoria 
+     */
+    setCategoria(categoria){
+        this.categorias.push(categoria);
     }
 
     /**

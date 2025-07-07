@@ -1,4 +1,5 @@
 const { ExercicioModel } = require('../model/ExercicioModel');
+const { ComentarioModel } = require('../model/ComentarioModel');
 
 class TreinoModel {
     /**
@@ -6,13 +7,18 @@ class TreinoModel {
      * @param {Number} codigo código identificador de treino
      * @param {string} descricao Breve descrição do treino
      * @param {string} titulo titulo do treino
+     * @param {string} capa caminho onde imagem de capa do treino foi salva
      * @param {Array<ExercicioModel>} exercicios array de ExercicioModel
+     * @param {Array<ComentarioModel>} exercicios array de ExercicioModel
      */
-    constructor(codigo, descricao, titulo, exercicios){
+    constructor(codigo, descricao, titulo, capa, avaliacao, exercicios, comentarios){
         this.codigo = codigo;
         this.descricao = descricao;
         this.titulo = titulo;
+        this.capa = capa;
+        this.avaliacao = avaliacao; 
         this.exercicios = exercicios;
+        this.comentarios = comentarios;
     }
 
     /**
@@ -27,6 +33,14 @@ class TreinoModel {
     }
 
     /**
+     * 
+     * @param {ExercicioModel} exercicio 
+     */
+    setExercicio(exercicio){
+        this.exercicios.push(exercicio);
+    }
+
+    /**
      * Função para converter propriedades do objeto para uma array
      * @returns {Array} retorna dados da objeto em um formato 
      * que pode ser utilizado para inserir dados no banco de 
@@ -35,7 +49,8 @@ class TreinoModel {
     toInsertArray(){
         return [
             this.descricao,
-            this.titulo
+            this.titulo,
+            this.capa
         ];
     }
 
@@ -49,7 +64,8 @@ class TreinoModel {
         return [
             this.descricao,
             this.titulo,
-            this.codigo
+            this.codigo,
+            this.capa
         ];
     }
 
