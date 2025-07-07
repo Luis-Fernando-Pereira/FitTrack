@@ -10,15 +10,12 @@ rodar npm install antes de qualquer execução para baixar todas as bibliotecas.
 
 acesso a login de administrador em https://localhost:3000/admin/
 
-Telas prontas:
- - Administrador: 
-   - login
-   - administradores
-
-Para alinhar o banco de dadoos, realizar importação de arquivos .sql pela ordem numérica encontrada no diretório hitorico_sql
+banco de dados em: historico_sql/fittrack10.sql
 
 Login de administrador para testes:
-   login: admin@email.com 
+   login: admin@gmail.com 
    senha: 123
 
-Back-end 90% completo.
+Login de cliente para testes:
+   login: cliente@email.com 
+   senha: 123
