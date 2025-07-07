@@ -13,13 +13,13 @@ class CategoriaService {
         }
 
         const dao = new CategoriaDao();
-        const categorias = await dao.buscaTodasCategorias();
+        const categorias = await dao.listarCategorias();
 
         if (categorias.some(cat => cat.titulo.toLowerCase() === titulo.trim().toLowerCase())) {
             throw new Error('Já existe uma categoria com esse nome.');
         }
 
-        const categoria = new CategoriaModel({ titulo });
+        const categoria = new CategoriaModel({ titulo: titulo.trim() });
         const codigo = await dao.inserirCategoria(categoria);
         categoria.codigo = codigo;
 
@@ -32,13 +32,19 @@ class CategoriaService {
         }
 
         const dao = new CategoriaDao();
-        const categorias = await dao.buscaTodasCategorias();
+        const categorias = await dao.listarCategorias();
+        const codigoNumerico = parseInt(codigo, 10);
 
-        if (categorias.some(cat => cat.titulo.toLowerCase() === novoTitulo.trim().toLowerCase() && cat.codigo !== codigo)) {
+        if (categorias.some(cat => cat.titulo.toLowerCase() === novoTitulo.trim().toLowerCase() && cat.codigo !== codigoNumerico)) {
             throw new Error('Já existe uma categoria com esse nome.');
         }
 
-        return await dao.editarCategoria(novoTitulo, codigo);
+        return await dao.editarCategoria(novoTitulo.trim(), codigo);
+    }
+
+    async excluirCategoria(codigo) {
+        const dao = new CategoriaDao();
+        return await dao.excluirCategoria(codigo);
     }
 }
 

@@ -41,6 +41,31 @@ class ExercicioDao {
             video: dadosEncontrados[0].video_exe
         }) : null;
     }
+
+    async editarExercicio(exercicioModel) {
+        const conexao = await conectarBD();
+        const sql = `update exercicio set titulo_exe = ?, descricao_exe = ?, duracao_exe = ?, video_exe = ? where cod_exe = ?`;
+
+        const valores = [
+            exercicioModel.titulo,
+            exercicioModel.descricao,
+            exercicioModel.tempoEstimado,
+            exercicioModel.video,
+            exercicioModel.codigo
+        ];
+
+        const [resultado] = await conexao.query(sql, valores);
+
+        return resultado.affectedRows > 0;
+    }
+
+    async excluirExercicio(codigo) {
+        const conexao = await conectarBD();
+        const sql = 'delete from exercicio where cod_exe = ?';
+        const [resultado] = await conexao.query(sql, [codigo]);
+
+        return resultado.affectedRows > 0;
+    }
 }
 
 module.exports = { ExercicioDao };

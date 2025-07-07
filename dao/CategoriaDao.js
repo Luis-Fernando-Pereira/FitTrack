@@ -34,6 +34,12 @@ class CategoriaDao {
         const [resultado] = await conexao.query('update categoria set titulo_cat = ? where cod_cat = ?', [novoTitulo, codigo]);
         return resultado.affectedRows > 0;
     }
+
+    async excluirCategoria(codigo) {
+        const conexao = await conectarBD();
+        const [resultado] = await conexao.query('delete from categoria where cod_cat = ?', [codigo]);
+        return resultado.affectedRows > 0;
+    }
 }
 
 module.exports = { CategoriaDao };
