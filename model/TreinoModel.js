@@ -1,4 +1,5 @@
 const { ExercicioModel } = require('../model/ExercicioModel');
+const { ComentarioModel } = require('../model/ComentarioModel');
 
 class TreinoModel {
     /**
@@ -8,13 +9,16 @@ class TreinoModel {
      * @param {string} titulo titulo do treino
      * @param {string} capa caminho onde imagem de capa do treino foi salva
      * @param {Array<ExercicioModel>} exercicios array de ExercicioModel
+     * @param {Array<ComentarioModel>} exercicios array de ExercicioModel
      */
-    constructor(codigo, descricao, titulo, capa, exercicios){
+    constructor(codigo, descricao, titulo, capa, avaliacao, exercicios, comentarios){
         this.codigo = codigo;
         this.descricao = descricao;
         this.titulo = titulo;
         this.capa = capa;
-        //this.exercicios = exercicios;//alterar depois para testes
+        this.avaliacao = avaliacao; 
+        this.exercicios = exercicios;
+        this.comentarios = comentarios;
     }
 
     /**
@@ -26,6 +30,14 @@ class TreinoModel {
         let listaCodigoExercicios = [];
         this.exercicios.forEach(exercicio => listaCodigoExercicios.push(exercicio.codigo));
         return listaCodigoExercicios;
+    }
+
+    /**
+     * 
+     * @param {ExercicioModel} exercicio 
+     */
+    setExercicio(exercicio){
+        this.exercicios.push(exercicio);
     }
 
     /**

@@ -13,7 +13,7 @@ class CategoriaService {
         }
 
         const dao = new CategoriaDao();
-        const categorias = await dao.buscaTodasCategorias();
+        const categorias = await dao.listarCategorias();
 
         if (categorias.some(cat => cat.titulo.toLowerCase() === titulo.trim().toLowerCase())) {
             throw new Error('Já existe uma categoria com esse nome.');

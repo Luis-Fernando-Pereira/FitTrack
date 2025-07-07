@@ -1,23 +1,26 @@
 const { ComentarioDao } = require('../dao/ComentarioDao');
 const { ComentarioModel } = require('../model/ComentarioModel');
+const { ClienteService } = require('./ClienteService');
 
 class ComentarioService {
-    async criarComentario(cliente, treino, texto) {
-        if (!cliente) {
-            throw new Error('Usuário não autenticado.');
-        }
-        if (!treino) {
-            throw new Error('Treino não informado.');
-        }
+    async criarComentario(treino, texto) {
         if (!texto || texto.trim() === '') {
             throw new Error('Comentário não pode ser vazio.');
         }
-        const comentario = new ComentarioModel({
+
+        const clienteService = new ClienteService();
+
+        const cliente = await clienteService.buscarPorEmail(global.emailCliente);
+
+        const comentario = new ComentarioModel({        
             cliente,
             treino,
             texto,
             dataHora: new Date()
-        });
+        });        
+
+        console.log(comentario);
+
         const dao = new ComentarioDao();
         const codigo = await dao.inserirComentario(comentario);
         comentario.codigo = codigo;
@@ -26,7 +29,7 @@ class ComentarioService {
 
     async listarComentariosPorTreino(idTreino) {
         const dao = new ComentarioDao();
-        return await dao.listarPorTreino(idTreino);
+        return await dao.listarPorTreino(idTreino);        
     }
 }
 

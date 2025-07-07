@@ -1,12 +1,39 @@
-const { ClienteDao } = require('../dao/ClienteDao');
-const { ClienteModel } = require('../model/ClienteModel');
+const { CategoriaService } = require('../service/CategoriaService');
 const { ClienteService } = require('../service/ClienteService'); 
+const { TreinoService } = require('../service/TreinoService');  
+
+const clienteService = new ClienteService();
+const treinoService = new TreinoService();
+const categoriaService = new CategoriaService();
+const clientService = new ClienteService();    
+
+exports.editarPerfil = async function(req, res, next) {
+    const {nome, email, senha, idade, peso, sexo, foto} = req.body;
+
+    try{
+        const cliente = await clientService.buscarPorEmail(global.emailCliente);
+        await clienteService.atualizarPerfil(cliente, nome, email, senha, idade, peso, sexo, foto);
+        
+    }catch(erro){
+        console.log(erro.message);
+    } finally{
+        res.redirect('/perfil');
+    }
+}
+
+exports.logout = async function (req, res, next) {
+    global.emailCliente = null;
+    res.redirect('/');
+}
+
+exports.rendTeste = async function (req, res, next) {
+    res.render('teste');
+}
 
 exports.deletarCliente = async function (req, res, next) {
     try{
         const id = req.params.id;
-        const service = new ClienteService();    
-        const deletado = await service.deletarCliente(id);
+        const deletado = await clientService.deletarCliente(id);
 
         if (deletado) {
             return res.status(200).json({ sucesso: true, mensagem: "Administrador deletado com sucesso!"});
@@ -29,8 +56,7 @@ exports.cadastrarCliente = async function (req, res, next){
             dados.foto = '/images/assets/avatar.png';
         }
 
-        const service = new ClienteService();    
-        const cliente = await service.novoCliente(dados);
+        const cliente = await clientService.novoCliente(dados);
         
         return res.status(201).json({ 
             sucesso: true, 
@@ -45,16 +71,23 @@ exports.cadastrarCliente = async function (req, res, next){
     }
 }
 
-exports.renderizarDashboard = async function (req, res, next){    
-    const clienteService = new ClienteService();
-    const cliente = await clienteService.buscarPorEmail(global.emailCliente);
+exports.renderizarDashboard = async function (req, res, next){  
+    try{
+        const cliente = await clienteService.buscarPorEmail(global.emailCliente);
+        const treinos = await treinoService.listarTreinos();
+        const categorias = await categoriaService.listarCategorias();
     
-    res.render('dashboard', {
-        titulo: "Cadastro",
-        sucesso: null,
-        message: null,
-        cliente
-    });
+        res.render('dashboard', {
+            titulo: "Cadastro",
+            sucesso: null,
+            message: null,
+            cliente,
+            treinos,
+            categorias
+        });
+    } catch (error){
+        res.json({error: error.message})
+    }
 }
 
 exports.renderizarCadastroCliente = async function (req, res, next){    
@@ -73,9 +106,21 @@ exports.renderizarLogin = async function (req, res, next){
     });
 }
 
+exports.renderizarPerfil = async function (req, res, next){
+    try{
+        const cliente = await clientService.buscarPorEmail(global.emailCliente);
+        
+        res.render('perfil', { 
+            titulo: "Perfil",
+            cliente
+        });
+    }catch(erro){
+
+    }
+}
+
 exports.renderizarClientes = async function (req, res, next){
-    const service = new ClienteService();
-    const clientes = await service.listarTodos();
+    const clientes = await clientService.listarTodos();
 
     res.render('admin/clientes', { titulo: "Clientes", clientes });
 }
@@ -84,8 +129,7 @@ exports.login = async function (req, res, next) {
     const {email, senha} = req.body;
 
     try{
-        const service = new ClienteService(); 
-        const cliente = await service.autenticar(email, senha);
+        const cliente = await clientService.autenticar(email, senha);
 
         if(!cliente){
             return res.status(300).json({
@@ -120,12 +164,8 @@ exports.atualizarCliente = async function (req, res, next){
         } else {
             dados.foto = '/images/assets/avatar.png';
         }
-
-        console.log(dados);
-
-        const service = new ClienteService();
     
-        const atualizado = await service.atualizarCliente(dados, id);
+        const atualizado = await clientService.atualizarCliente(dados, id);
 
         if (atualizado) {
             return res.status(200).json({sucesso: true, mensagem: "Administrador atualizado com sucesso!" });

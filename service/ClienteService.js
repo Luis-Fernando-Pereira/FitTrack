@@ -25,7 +25,28 @@ class ClienteService {
             return false;
         }
 
+        global.emailCliente = cliente.email;
+
         return cliente;
+    }
+
+    async atualizarPerfil(cliente, nome, email, senha, idade, peso, sexo, foto){
+        if(nome && cliente.nome !== nome)cliente.nome = nome;
+        if(email && cliente.email !== email)cliente.email = email;
+        if(senha && cliente.senha !== senha)cliente.senha = senha;
+        if(idade && cliente.idade !== parseInt(idade))cliente.idade = parseInt(idade);
+        if(peso && cliente.peso !== parseFloat(peso))cliente.peso = parseFloat(peso);
+        if(sexo && cliente.sexo !== sexo)cliente.sexo = sexo;
+        if(foto && cliente.foto !== foto)cliente.foto = foto;
+
+        const dao = new ClienteDao();
+        const sucesso = await dao.atualizar(cliente);
+               
+        if(!sucesso){
+            throw new Error('Falha ao atualizar dados!');
+        }
+
+        global.emailCliente = cliente.email;
     }
 
     async buscarPorEmail(email){

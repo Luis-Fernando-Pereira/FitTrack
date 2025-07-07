@@ -1,8 +1,69 @@
 const { TreinoDao } = require('../dao/TreinoDao');
+const { TreinoFactory } = require('../factory/TreinoFactory');
+const { ClienteModel } = require('../model/ClienteModel');
 const { ExercicioModel } = require('../model/ExercicioModel');
 const { TreinoModel } = require('../model/TreinoModel');
+const { FuncoesUtil } = require('../util/FuncoesUtil');
+const { ComentarioService } = require('./ComentarioService');
 
 class TreinoService {
+    /**
+     * 
+     * @param {TreinoModel} treino 
+     * @param {ClienteModel} cliente 
+     */
+    async marcarTreino(treino, cliente){
+        const dao = new TreinoDao();
+        const dataHora = FuncoesUtil.dataHoraAtual();
+        return await dao.marcarTreino(treino.codigo, cliente.codigo, dataHora);
+    } 
+    
+    /**
+     * 
+     * @param {TreinoModel} treino 
+     * @param {ClienteModel} cliente 
+     */
+    async finalizarTreino(treinoId,avaliacao,clienteId,treinoMarcadoId){
+        try{
+            const dao = new TreinoDao();
+            const dataHora = FuncoesUtil.dataHoraAtual();
+
+            const sucesso = await dao.finalizarTreino(treinoMarcadoId, dataHora);
+            
+            if(!sucesso){
+                throw new Error('Não foi possivel finalizar treino!');
+            }
+
+            this.avaliarTreino(treinoId,avaliacao,clienteId);
+        }catch(error){
+            throw new Error(error.message);
+        }        
+    }   
+
+    /**
+     * 
+     * @param {TreinoModel} treino 
+     * @param {ClienteModel} cliente 
+     */
+    async avaliarTreino(treinoId, avaliacao, clienteId){
+        try{
+            const dao = new TreinoDao();
+            const clienteJaAvaliouTreino = await dao.clienteJaAvaliouTreino(clienteId, treinoId);
+
+            if(!clienteJaAvaliouTreino){
+                const sucesso = await dao.avaliarTreino(treinoId, clienteId, avaliacao);
+                
+                if(!sucesso){
+                    throw new Error('Não foi possivel gravar avalição do treino!');
+                }
+            }
+            
+        }catch(error){
+            throw new Error(error.message);
+        }
+        
+    }  
+    
     /**
      * Função que vincula um exercicio a um treino
      * @param {Object} dados dados do corpo da requisição recebida
@@ -53,22 +114,74 @@ class TreinoService {
     }
 
     /**
+     * Método que procura por um treino 
+     * @param {Number} id codigo de identificação de treino
+     * @returns {TreinoModel} objeto com os dados do treino
+     */
+    async buscarPorId(id){
+        const dao = new TreinoDao();
+        
+        const resultado = await dao.buscarPorId(id);
+        this.validaResultadoDao(resultado);
+
+        let [ treino ] = TreinoFactory.buildFromRows(resultado.rows);
+
+        const result = await dao.buscarNota(treino.codigo);
+
+        this.validaResultadoDao(result);
+        treino.avaliacao = result.rows.nota;
+        
+        const comentarioService = new ComentarioService();
+        const comentarios = await comentarioService.listarComentariosPorTreino(id);
+
+        comentarios.forEach(comentario => {
+            comentario.dataHora = FuncoesUtil.formatarDataHora(comentario.dataHora);
+        });
+
+        treino.comentarios = comentarios;
+
+        return treino;
+    }
+
+    /**
      * Função que busca por todos os treinos no banco
      * de dados
      * @returns {Array<TreinoModel>} 
      */
     async listarTreinos(){
         const dao = new TreinoDao();
-        const resultado = await dao.listarTodos();
 
-        this.validaResultadoDao(resultado);
-        const { lista } = resultado;
+        let treinos = await this.buscarTreinos(dao);        
+        const notas = await this.buscarNotas(dao);
         
-        const res = this.toArrayOfTreinoModel(lista); 
+        notas.forEach(avaliacao => {
+            const index = treinos.findIndex(treino => treino.codigo === avaliacao.treino);
+            treinos[index].avaliacao = avaliacao.nota;
+        });    
 
-        console.log(res);
+        return treinos; 
+    }
 
-        return res;
+    /**
+     * 
+     * @param {TreinoDao} dao 
+     */
+    async buscarNotas(dao){
+        const dados = await dao.buscarNotas();
+        this.validaResultadoDao(dados);
+        return dados.rows;
+    }
+
+    /**
+     * 
+     * @param {TreinoDao} dao 
+     * @returns 
+     */
+    async buscarTreinos(dao){
+        const dados = await dao.listarTodos();
+        this.validaResultadoDao(dados); 
+            
+        return TreinoFactory.buildFromRows(dados.rows);
     }
 
     /**
