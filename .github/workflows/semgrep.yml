@@ -1,0 +1,38 @@
+name: SAST - Semgrep
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Rodar Semgrep com regras OWASP Top 10
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: |
+            p/owasp-top-ten
+            p/nodejsscan
+          generateSarif: true
+          # se quiser que o pipeline falhe quando achar problemas, mude para true
+          strict: false
+
+      - name: Upload SARIF para Security Tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep.sarif
+
+      - name: Salvar relatório como artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-report
+          path: semgrep.sarif
