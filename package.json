@@ -9,6 +9,11 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.62.1",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.203.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.203.0",
+    "@opentelemetry/sdk-node": "^0.203.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "^3.1.10",
@@ -18,7 +23,9 @@
     "morgan": "~1.9.1",
     "multer": "^2.0.0",
     "mysql2": "^3.14.0",
-    "npm": "^11.3.0"
+    "npm": "^11.3.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.53.0",
