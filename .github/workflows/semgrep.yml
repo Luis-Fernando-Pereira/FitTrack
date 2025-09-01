@@ -23,7 +23,7 @@ jobs:
 
       - name: Rodar Semgrep (OWASP + NodeJS) e gerar SARIF/JSON
         run: |
-          semgrep --config=p/owasp-top-ten --config=p/nodejsscan --metrics=off --sarif --output=semgrep.sarif --error || echo "{}" > semgrep.sarif
+          semgrep --config=p/owasp-top-ten --config=p/nodejsscan --metrics=off --sarif-output=semgrep.sarif || echo "{}" > semgrep.sarif
           semgrep --config=p/owasp-top-ten --config=p/nodejsscan --metrics=off --json  --output=semgrep.json  --error || echo "{}" > semgrep.json
 
       - name: Upload SARIF para GitHub Security
